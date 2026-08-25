@@ -8,7 +8,7 @@ import PriorityTable, { DecisionResultItem } from "./components/PriorityTable";
 import ForecastChart from "./components/ForecastChart";
 import WhatIfSimulator from "./components/WhatIfSimulator";
 import confetti from "canvas-confetti";
-import { Sparkles, ArrowDownCircle, Layers, CheckCircle2, RotateCcw } from "lucide-react";
+import { Sparkles, CheckCircle2, RotateCcw, Download, ShieldCheck, Info } from "lucide-react";
 
 interface DecisionApiResponse {
   status: string;
@@ -24,10 +24,8 @@ export default function DashboardPage() {
   const [decisionData, setDecisionData] = useState<DecisionApiResponse | null>(null);
   const [selectedProductId, setSelectedProductId] = useState<string>("");
 
-  // Determine API base URL (works in browser and container)
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-  // Check health on initial mount
   useEffect(() => {
     const checkHealth = async () => {
       try {
@@ -38,7 +36,6 @@ export default function DashboardPage() {
           setApiHealthy(false);
         }
       } catch (err) {
-        console.warn("Backend not yet reachable directly, testing proxy...");
         try {
           const res2 = await fetch("/api/health");
           if (res2.ok) setApiHealthy(true);
@@ -59,7 +56,6 @@ export default function DashboardPage() {
       let response: Response;
 
       if (file) {
-        // Upload user's CSV file
         const formData = new FormData();
         formData.append("file", file);
         response = await fetch(`${API_BASE_URL}/api/predict-and-decide`, {
@@ -67,7 +63,6 @@ export default function DashboardPage() {
           body: formData,
         });
       } else {
-        // Use built-in sample data
         response = await fetch(`${API_BASE_URL}/api/predict-and-decide`, {
           method: "POST",
         });
@@ -85,7 +80,6 @@ export default function DashboardPage() {
         setSelectedProductId(data.results[0].product_id);
       }
 
-      // Celebrate successful decision processing
       try {
         confetti({
           particleCount: 50,
@@ -107,6 +101,50 @@ export default function DashboardPage() {
     setDecisionData(null);
     setError(null);
     setSelectedProductId("");
+  };
+
+  const handleExportCSV = () => {
+    if (!decisionData || !decisionData.results) return;
+
+    const headers = [
+      "Peringkat Prioritas",
+      "ID Produk",
+      "Nama Produk",
+      "Stok Saat Ini",
+      "Prediksi Demand 14 Hari",
+      "Safety Stock (Buffer)",
+      "Rekomendasi Restock Qty",
+      "Tingkat Risiko Stockout",
+      "Estimasi Modal Restock (IDR)",
+      "Potensi Omset Hilang (IDR)"
+    ];
+
+    const rows = decisionData.results.map(item => [
+      item.priority_rank,
+      `"${item.product_id}"`,
+      `"${item.product_name}"`,
+      item.current_stock,
+      item.forecast_14d_qty,
+      item.safety_stock_qty,
+      item.recommended_reorder_qty,
+      item.risk_score,
+      item.estimated_cost_idr,
+      item.potential_lost_sales_idr
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(r => r.join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Laporan_Restock_Sakapinta_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const selectedItem = decisionData?.results.find((item) => item.product_id === selectedProductId);
@@ -158,14 +196,38 @@ export default function DashboardPage() {
                 </span>
               </div>
 
-              <button
-                type="button"
-                onClick={handleReset}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-surface-100 hover:bg-surface-50 text-slate-300 text-xs font-medium border border-slate-700 transition-colors cursor-pointer w-fit"
-              >
-                <RotateCcw className="h-3.5 w-3.5" />
-                <span>Analisis Data Baru</span>
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={handleExportCSV}
+                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all cursor-pointer"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Unduh Laporan Restock (.CSV)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-surface-100 hover:bg-surface-50 text-slate-300 text-xs font-medium border border-slate-700 transition-colors cursor-pointer"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" />
+                  <span>Reset</span>
+                </button>
+              </div>
+            </div>
+
+            {/* AI Governance & Responsible AI Banner */}
+            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 flex items-start space-x-3 text-xs text-slate-400">
+              <ShieldCheck className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <div className="font-semibold text-slate-200 flex items-center space-x-1.5">
+                  <span>Tata Kelola & Etika AI Terpenuhi (Responsible AI Governance)</span>
+                </div>
+                <p className="leading-relaxed">
+                  Model AI diprediksi secara deterministik menggunakan Multi-Quantile LightGBM Regression ($P_{10}, P_{50}, P_{90}$) berbasis penanggalan Indonesia tanpa menggunakan LLM generatif yang rawan halusinasi. Perhitungan Safety Stock mematuhi standar distribusi normal $Z=1.65$ (Service Level 95%).
+                </p>
+              </div>
             </div>
 
             {/* 1. Actionable Executive KPIs */}
