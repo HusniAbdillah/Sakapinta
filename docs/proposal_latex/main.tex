@@ -323,6 +323,22 @@ Kinerja peramalan dievaluasi menggunakan empat metrik standar internasional \cit
     \label{fig:model_benchmark}
 \end{figure}
 
+\subsection{Metode Pendukung Pengambilan Keputusan (Supporting Methods)}
+Selain arsitektur inti, keputusan teknis diperkuat oleh metode pendukung yang saling melengkapi:
+\begin{itemize}
+    \item \textbf{Pembersihan IQR (Outlier Filtering):} Menghilangkan anomali pencatatan kasir melalui rentang antar-kuartil ($Q_1 - 1.5 \times IQR$ hingga $Q_3 + 1.5 \times IQR$) agar \textit{outlier} tidak mendistorsi basis pelatihan.
+    \item \textbf{Dekomposisi Croston's Hurdle}: Menangani komoditas \textit{slow-moving} (rasio hari tanpa penjualan $\ge 35\%$) yang rentan \textit{bias} kuadratis bila dianggap permintaan kontinu.
+    \item \textbf{Hierarchical Empirical Bayes Prior}: Menyusutkan estimasi produk \textit{cold-start} ($n < 7$ hari) terhadap prior kategori agar tidak overfit pada historis pendek.
+    \item \textbf{Explainable AI (XAI)}: Setiap rekomendasi dilengkapi laci transparansi matematis yang dapat diverifikasi pengguna (mendukung prinsip \textit{Responsible AI}).
+    \item \textbf{Metrik Evaluasi}: RMSE, MAE, MAPE, dan $R^2$ digunakan sebagai kriteria objektif komparasi model.
+\end{itemize}
+
+\subsection{Protokol Evaluasi dan Keterbatasan (Honest Evaluation)}
+\begin{itemize}
+    \item Evaluasi model dilakukan dengan \textit{walk-forward / hold-out split} pada \textbf{dataset uji sintetik bertema Indonesia}; metrik dihitung pada \textit{test set} untuk menghindari optimisme berlebih.
+    \item \textbf{Validasi pada data UMKM riil belum dilakukan} pada tahap penyisihan; validasi lapangan menjadi prioritas pada babak final/hackathon. Keterbatasan ini kami nyatakan secara terbuka demi transparansi.
+    \item Sebagai pembanding yang bermakna, diukur pula \textit{baseline naive} (prediksi = nilai 14 hari sebelumnya); peningkatan performa dilaporkan relatif terhadap \textit{baseline} ini agar bukan sekadar angka mutlak.
+\end{itemize}
 \subsection{Prescriptive Decision Layer dan Optimasi Operasional}
 
 \subsubsection{Full Stochastic Joint Safety Stock (\texorpdfstring{$SS$}{SS})}
@@ -377,6 +393,16 @@ Arsitektur Sakapinta dibangun dengan pemisahan tanggung jawab yang modular (\tex
     \item \textbf{Serving Inferensi Statis Sub-10ms:} Model serialisasi \texttt{sakapinta\_model.joblib} (v3.0.0) dimuat ke memori (\textit{in-memory}) saat startup container, menjamin latensi inferensi $<10\text{ ms}$ pada CPU standar tanpa kebutuhan GPU.
     \item \textbf{Kontainerisasi Tunggal Docker Compose:} Seluruh ekosistem (Frontend, Backend, dan Nginx Reverse Proxy di Port 80) dapat dijalankan melalui satu perintah pada repositori publik (\url{https://github.com/HusniAbdillah/Sakapinta}): \texttt{docker compose up -d --build}, serta dapat diakses secara langsung melalui deployment cloud di \url{http://34.44.169.181}.
 \end{itemize}
+\subsubsection{Alur Integrasi Model ke Environment Kode}
+Untuk memenuhi ketentuan metodologi pada ruang lingkup penyisihan, berikut alur nyata integrasi model dari pelatihan \textit{offline} hingga dapat dipanggil aplikasi runtime:
+\begin{enumerate}
+    \item \textbf{Offline Training (\texttt{ai\_pipeline/train.py})}: Melatih dan mengevaluasi model, lalu menyimpan artifact terkalibrasi ke \texttt{backend/app/models/sakapinta\_model.joblib}.
+    \item \textbf{Static Load Startup (\texttt{backend/app/core/inference.py})}: Saat container memulai, artifact dimuat satu kali ke memori (\textit{in-memory}) pada variabel global, tanpa proses retraining di runtime.
+    \item \textbf{Hybrid Decision Layer (\texttt{backend/app/core/decision\_layer.py})}: Output forecast diolah menjadi keputusan preskriptif (safety stock, reorder, skor risiko, proyeksi finansial).
+    \item \textbf{REST API (\texttt{backend/app/main.py})}: Endpoint sinkron \texttt{POST /api/predict-and-decide} menautkan seluruh lapisan dan mengembalikan JSON keputusan.
+    \item \textbf{Presentation Layer (\texttt{frontend/})}: Menampilkan keputusan pada dashboard untuk pengguna akhir.
+\end{enumerate}
+\textbf{Environment \& Reproducibility.} Backend berjalan pada Python 3.11 dengan dependensi terkunci pada \texttt{backend/requirements.txt}; frontend berbasis Next.js 14 App Router dengan dependensi pada \texttt{frontend/package.json}. Seluruh layanan dapat direproduksi panitia secara lokal melalui \texttt{docker compose up --build} sesuai panduan \texttt{README.md}.
 
 % =========================================================================
 % BAB 4: EVALUASI KESIAPAN MVP
@@ -432,6 +458,18 @@ Hasil pada Tabel \ref{tab:mvp_evaluation} membuktikan bahwa Sakapinta tidak hany
     \label{fig:dashboard_matrix_xai}
 \end{figure}
 
+\subsection{Refleksi Proses Pengembangan Iteratif}
+Pengembangan Sakapinta mencerminkan pendekatan yang reflektif dan adaptif, ditelusuri dari riwayat komit repositori tim selama periode pengerjaan (23--25 Agustus 2026). Setiap iterasi ditutup dengan pelajaran yang langsung memengaruhi keputusan tahap berikut:
+\begin{enumerate}
+    \item \textbf{Iterasi 0 -- Perancangan \& Definisi Arsitektur}: Kerangka, kebutuhan MVP, dan metodologi didefinisikan lebih dulu. \textit{Pelajaran}: kejelasan batas MVP mencegah \textit{overbuilding}.
+    \item \textbf{Iterasi 1 -- Mesin Inferensi Inti Multi-Quantile}: Pipeline pelatihan \textit{offline} dan artifact \texttt{sakapinta\_model.joblib} dibangun. \textit{Pelajaran}: pemisahan pelatihan (offline) dan inferensi (runtime) memenuhi batasan statis \& latensi rendah.
+    \item \textbf{Iterasi 2 -- Penanganan Permintaan Intermiten}: Menemukan banyak komoditas \textit{slow-moving}; mengintegrasikan dekomposisi Croston dan memperbaiki pemuatan artifact. \textit{Pelajaran}: satu model tunggal tidak cukup; perlu strategi per profil permintaan.
+    \item \textbf{Iterasi 3 -- Bukti Empiris \& EDA}: Menambah plot distribusi, outlier IQR, ketidakpastian kuantil, dan dekomposisi deret waktu. \textit{Pelajaran}: bukti visual \& benchmark kuantatif memperkuat keputusan model.
+    \item \textbf{Iterasi 4 -- Kematangan Keputusan \& Desain UI}: Merevisi perhitungan finansial/skor risiko dan menyelaraskan antarmuka (What-If, tabel prior). \textit{Pelajaran}: lapisan preskriptif dan pengalaman pengguna diiterasi bersama.
+    \item \textbf{Iterasi 5 -- Rekayasa Data \& Perluasan Portofolio}: Memperluas 12 SKU dan menangani alias kolom (\textit{alias calibration}). \textit{Pelajaran}: ketangguhan ragam format input adalah kebutuhan nyata.
+    \item \textbf{Iterasi 6 -- Kontainerisasi \& Deployment}: Menyatukan Frontend, Backend, dan Nginx agar dapat dijalankan satu perintah. \textit{Pelajaran}: reproduktibilitas adalah kunci kelolosan teknis.
+    \item \textbf{Iterasi 7 -- Proposal Ilmiah \& Verifikasi Akhir}: Menyelesaikan proposal LaTeX, bibliografi, dan figur EDA. \textit{Pelajaran}: dokumentasi akademik yang rapi menutup keseluruhan proses secara kredibel.
+\end{enumerate}
 \subsection{Area Peningkatan Signifikan untuk Babak Final (Roadmap Pengembangan)}
 Secara objektif, tim mengidentifikasi beberapa batasan sistem saat ini dan merancang peta jalan pengembangan lanjutan untuk Babak Final:
 \begin{enumerate}
