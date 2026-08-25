@@ -1,0 +1,83 @@
+\begin{thebibliography}{}
+
+\bibitem[{Badan Pusat Statistik}, 2023]{bps2023profil}
+{Badan Pusat Statistik} (2023).
+\newblock Profil industri mikro dan kecil 2023: Dinamika rantai pasok dan
+  digitalisasi perdagangan ritel.
+\newblock Technical report, Badan Pusat Statistik Republik Indonesia, Jakarta,
+  Indonesia.
+
+\bibitem[{Bank Indonesia}, 2023]{bi2023laporan}
+{Bank Indonesia} (2023).
+\newblock Laporan perekonomian indonesia 2023: Sinergi mendorong akselerasi
+  pertumbuhan dan transformasi digital umkm.
+\newblock Technical report, Bank Indonesia, Jakarta, Indonesia.
+
+\bibitem[Chen and Guestrin, 2016]{chen2016xgboost}
+Chen, T. and Guestrin, C. (2016).
+\newblock {XGBoost}: A scalable tree boosting system.
+\newblock In {\em Proceedings of the 22nd ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining (KDD '16)}, pages 785--794. ACM.
+
+\bibitem[Chopra and Meindl, 2019]{chopra2019supply}
+Chopra, S. and Meindl, P. (2019).
+\newblock {\em Supply Chain Management: Strategy, Planning, and Operation}.
+\newblock Pearson Education, Boston, MA, 7th edition.
+
+\bibitem[Croston, 1972]{croston1972forecasting}
+Croston, J.~D. (1972).
+\newblock Forecasting and stock control for intermittent demands.
+\newblock {\em Operational Research Quarterly}, 23(3):289--303.
+
+\bibitem[Fildes et~al., 2022]{fildes2022retail}
+Fildes, R., Ma, S., and Kolassa, S. (2022).
+\newblock Retail forecasting: Research and practice.
+\newblock {\em International Journal of Forecasting}, 38(4):1283--1318.
+
+\bibitem[Gelman et~al., 2013]{gelman2013bayesian}
+Gelman, A., Carlin, J.~B., Stern, H.~S., Dunson, D.~B., Vehtari, A., and Rubin,
+  D.~B. (2013).
+\newblock {\em Bayesian Data Analysis}.
+\newblock Chapman and Hall/CRC, New York, NY, 3rd edition.
+
+\bibitem[Hyndman and Athanasopoulos, 2021]{hyndman2021forecasting}
+Hyndman, R.~J. and Athanasopoulos, G. (2021).
+\newblock {\em Forecasting: Principles and Practice}.
+\newblock OTexts, Melbourne, Australia, 3rd edition.
+
+\bibitem[Ke et~al., 2017]{ke2017lightgbm}
+Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., and Liu,
+  T.-Y. (2017).
+\newblock {LightGBM}: A highly efficient gradient boosting decision tree.
+\newblock {\em Advances in Neural Information Processing Systems (NeurIPS)},
+  30:3146--3154.
+
+\bibitem[Koenker and Hallock, 2001]{koenker2001quantile}
+Koenker, R. and Hallock, K.~F. (2001).
+\newblock Quantile regression.
+\newblock {\em Journal of Economic Perspectives}, 15(4):143--156.
+
+\bibitem[Makridakis et~al., 2022]{makridakis2022m5}
+Makridakis, S., Spiliotis, E., and Assimakopoulos, V. (2022).
+\newblock The {M5} competition: Background, organization, and results on
+  hierarchical and intermittent time series forecasting.
+\newblock {\em International Journal of Forecasting}, 38(4):1325--1347.
+
+\bibitem[Ribeiro et~al., 2016]{ribeiro2016trust}
+Ribeiro, M.~T., Singh, S., and Guestrin, C. (2016).
+\newblock ``{Why} should {I} trust you?'': Explaining the predictions of any
+  classifier.
+\newblock In {\em Proceedings of the 22nd ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining}, pages 1135--1144. ACM.
+
+\bibitem[Silver et~al., 2016]{silver2016inventory}
+Silver, E.~A., Pyke, D.~F., and Thomas, D.~J. (2016).
+\newblock {\em Inventory and Production Management in Supply Chains}.
+\newblock CRC Press, Boca Raton, FL, 4th edition.
+
+\bibitem[Syntetos and Boylan, 2005]{syntetos2005accuracy}
+Syntetos, A.~A. and Boylan, J.~E. (2005).
+\newblock The accuracy of intermittent demand estimates.
+\newblock {\em International Journal of Forecasting}, 21(2):303--314.
+
+\end{thebibliography}
