@@ -3,7 +3,10 @@
 % --- PACKAGES PENGATURAN NASKAH AKADEMIK ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+
+% --- TIPOGRAFI AKADEMIK TIMES NEW ROMAN ---
+\usepackage{mathptmx}
+
 \usepackage[indonesian]{babel}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{booktabs}
@@ -22,13 +25,14 @@
 \usepackage{tcolorbox}
 \usepackage{tikz}
 
-% --- PENGATURAN MARGIN DAN GEOMETRI ---
+% --- PENGATURAN MARGIN DAN GEOMETRI UNTUK BINGKAI TEMPLATE ---
 \geometry{
-    top=2.8cm,
-    bottom=2.8cm,
+    top=3.4cm,
+    bottom=3.2cm,
     left=2.8cm,
     right=2.8cm,
-    headheight=15pt
+    headheight=0pt,
+    headsep=0pt
 }
 
 % --- SPASI PADAT AKADEMIS ---
@@ -46,28 +50,28 @@
     pdftitle={Proposal Sakapinta - COMPFEST 18 AI Innovation Challenge}
 }
 
-% --- PENGATURAN HEADER & FOOTER DENGAN WATERMARK LOGO DI TENGAH HALAMAN ---
+% --- PENGATURAN TEMPLATE BACKGROUND FRAME PADA SELURUH HALAMAN ---
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\textit{\footnotesize SAKAPINTA --- Tiang Penyangga Keputusan Stok UMKM}}
-\rhead{\textit{\footnotesize COMPFEST 18 AIC}}
-\cfoot{\thepage%
+\cfoot{%
   \begin{tikzpicture}[remember picture, overlay]
-    \node[opacity=0.035, inner sep=0pt] at (current page.center) {
-      \includegraphics[width=9.5cm]{figures/Sakapinta.png}
+    \node[inner sep=0pt] at (current page.center) {
+      \includegraphics[width=\paperwidth, height=\paperheight]{figures/header_footer.png}
     };
+    \node[anchor=south, yshift=1.2cm] at (current page.south) {\small \textbf{\thepage}};
   \end{tikzpicture}%
 }
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
 
 % --- DOKUMEN UTAMA ---
 \begin{document}
 
 % --- HALAMAN JUDUL (1 HALAMAN FORMAL - ANONIM TANPA NAMA INSTITUSI/KAMPUS) ---
 \begin{titlepage}
+    \thispagestyle{fancy}
     \centering
-    \vspace*{0.2cm}
+    \vspace*{0.6cm}
     
     {\normalsize \textbf{AI INNOVATION CHALLENGE 2026 --- COMPFEST 18}\par}
     \vspace{0.15cm}
@@ -83,13 +87,13 @@
     \vspace{0.25cm}
     {\normalsize \textit{``Tiang Penyangga Keputusan Stok UMKM Indonesia''}\par}
 
-    \vspace{0.6cm}
+    \vspace{0.5cm}
     \rule{\linewidth}{1.2pt}\par
-    \vspace{0.4cm}
+    \vspace{0.35cm}
 
     \begin{minipage}{0.92\textwidth}
         \footnotesize
-        \textbf{Nama Tim:} KKN (Kelompok Kecerdasan Neural)\\[0.25cm]
+        \textbf{Nama Tim:} KKN (Kelompok Kecerdasan Neural)\\[0.2cm]
         \textbf{Anggota Tim:}\\[0.1cm]
         1. Husni Abdillah (Ketua Tim)\\
         2. Fatiyya Ilmi Zahra\\
@@ -98,7 +102,7 @@
         5. Arief Abdul Rahman\\
     \end{minipage}
 
-    \vspace{0.6cm}
+    \vspace{0.5cm}
 
     \begin{tcolorbox}[colback=blue!4!white,colframe=blue!70!black,title={\footnotesize \textbf{Tautan Akses Luaran \& Artefak Digital}},arc=1.5mm]
         \footnotesize
@@ -149,7 +153,7 @@ Kompleksitas logistik persediaan ini kian diperparah oleh karakteristik pasar In
 \subsection{Kesenjangan Solusi Saat Ini dan Orisinalitas Pendekatan Sakapinta}
 Perkembangan teknologi perangkat lunak saat ini telah melahirkan berbagai aplikasi Kasir Digital (\textit{Point of Sale} / POS) dan sistem pembukuan digital di Indonesia. Namun, telaah mendalam terhadap ekosistem perangkat lunak yang ada menunjukkan beberapa kesenjangan mendasar.
 
-Mayoritas aplikasi kasir yang beredar hanya berfokus pada fungsi pencatatan kasir dan penyajian grafik deskriptif historis transaksi masa lalu. Sistem tersebut menuntut pemilik toko untuk menganalisis grafik sendiri dan menebak kuantitas barang yang harus dipesan, sehingga beban kognitif pengambilan keputusan tetap berada sepenuhnya pada pelaku usaha. Di samping itu, model peramalan statistik konvensional yang kerap digunakan hanya menghasilkan satu angka estimasi tunggal (\textit{point forecast}) tanpa memberikan rentang ketidakpastian (\textit{uncertainty bound}). Pendekatan titik tunggal ini sangat rentan meleset ketika terjadi lonjakan permintaan tak terduga \citep{hyndman2021forecasting}.
+Mayoritas aplikasi kasir yang beredar hanya berfokus pada fungsi pencatatan kasir dan penyajikan grafik deskriptif historis transaksi masa lalu. Sistem tersebut menuntut pemilik toko untuk menganalisis grafik sendiri dan menebak kuantitas barang yang harus dipesan, sehingga beban kognitif pengambilan keputusan tetap berada sepenuhnya pada pelaku usaha. Di samping itu, model peramalan statistik konvensional yang kerap digunakan hanya menghasilkan satu angka estimasi tunggal (\textit{point forecast}) tanpa memberikan rentang ketidakpastian (\textit{uncertainty bound}). Pendekatan titik tunggal ini sangat rentan meleset ketika terjadi lonjakan permintaan tak terduga \citep{hyndman2021forecasting}.
 
 Kelemahan paling krusial adalah ketiadaan lapisan preskriptif yang terkalibrasi secara finansial. Solusi eksisting belum mampu mengonversi angka peramalan menjadi rekomendasi kuantitas pemesanan ulang (\textit{reorder quantity}) yang terintegrasi langsung dengan ketidakpastian waktu tunggu distributor, batas anggaran likuid toko, dan kuantifikasi potensi kerugian omset dalam nominal Rupiah.
 
@@ -216,7 +220,7 @@ Data transaksi penjualan historis $y_t$ kerap mengandung anomali akibat salah ke
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.72\textwidth]{figures/outlier_detection_iqr.png}
+    \includegraphics[width=0.70\textwidth]{figures/outlier_detection_iqr.png}
     \caption{Deteksi dan Eliminasi Anomali Data Penjualan Menggunakan IQR Filtering}
     \label{fig:outlier_iqr}
 \end{figure}
@@ -230,7 +234,7 @@ Untuk menangkap kontinuitas siklus musiman tahunan dan bulanan tanpa menciptakan
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/time_series_decomposition.png}
+    \includegraphics[width=0.73\textwidth]{figures/time_series_decomposition.png}
     \caption{Dekomposisi Deret Waktu Penjualan Ritel (Tren, Musiman, dan Komponen Residual)}
     \label{fig:ts_decomposition}
 \end{figure}
@@ -261,7 +265,7 @@ di mana $\hat{y}_{P10}$ merepresentasikan skenario pesimis (batas bawah), $\hat{
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/quantile_forecast_uncertainty.png}
+    \includegraphics[width=0.73\textwidth]{figures/quantile_forecast_uncertainty.png}
     \caption{Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}
     \label{fig:quantile_uncertainty}
 \end{figure}
@@ -314,7 +318,7 @@ Kinerja peramalan dievaluasi menggunakan empat metrik standar internasional \cit
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.68\textwidth]{figures/model_benchmark_comparison.png}
+    \includegraphics[width=0.65\textwidth]{figures/model_benchmark_comparison.png}
     \caption{Komparasi Metrik Evaluasi Model (LightGBM Multi-Quantile vs. XGBoost Baseline)}
     \label{fig:model_benchmark}
 \end{figure}
@@ -384,7 +388,7 @@ Sistem Sakapinta telah diuji secara menyeluruh menggunakan portofolio 12 SKU rit
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.78\textwidth]{figures/dashboard_overview.png}
+    \includegraphics[width=0.75\textwidth]{figures/dashboard_overview.png}
     \caption{Antarmuka Utama Dashboard Sakapinta (Upload CSV, Kartu KPI Eksekutif, dan Simulator Finansial What-If)}
     \label{fig:dashboard_overview}
 \end{figure}
@@ -423,7 +427,7 @@ Hasil pada Tabel \ref{tab:mvp_evaluation} membuktikan bahwa Sakapinta tidak hany
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.78\textwidth]{figures/dashboard_matrix_xai.png}
+    \includegraphics[width=0.75\textwidth]{figures/dashboard_matrix_xai.png}
     \caption{Matriks Prioritas Keputusan Stok, Laci Transparansi Matematis XAI, dan Proyeksi Deret Waktu Recharts}
     \label{fig:dashboard_matrix_xai}
 \end{figure}
@@ -433,7 +437,7 @@ Secara objektif, tim mengidentifikasi beberapa batasan sistem saat ini dan meran
 \begin{enumerate}
     \item \textbf{Integrasi Langsung Pemindai Kasir (\textit{Direct POS / Barcode Scanner API Hook}):} Menggantikan pengunggahan CSV berkala dengan \textit{real-time webhook} yang langsung memperbarui posisi stok saat kasir memindai barcode transaksi.
     \item \textbf{Penggabungan Pengadaan Antar-Warung (\textit{Multi-Echelon Collective Group Purchasing}):} Mengagregasi kuantitas restock dari beberapa toko di satu zona geografis untuk mendapatkan diskon grosir skala besar (\textit{bulk volume discount}) dari produsen FMCG.
-    \item \textbf{Optimasi Rute Armada Distribusi Logistik (\textit{Vehicle Routing Problem}):} Mengintegrasikan modul optimasi rute kendaraan kurir distributor agar waktu tempuh pengantaran bahan pokok dapat diminimalkan.
+    \item \textbf{Optimasi Rute Armada Distribusi Logistik (\textit{Vehicle Routing Problem}):} Mengintegrasikan modul optimasi rute kendaraan kurir distributor agar waktu tempuh pengantaran bahan pokok dapat minimalkan.
     \item \textbf{Otomatisasi Penerbitan \textit{Purchase Order} (PO) Terenkripsi:} Fitur pengiriman lembar pesanan otomatis ke nomor WhatsApp atau surel distributor resmi dengan tanda tangan digital terverifikasi.
 \end{enumerate}
 
