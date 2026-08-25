@@ -11,28 +11,35 @@
 
 ```mermaid
 flowchart LR
-    A["Historical Sales (.CSV)"] --> B["Indonesian Temporal Engine\n(Ramadan, Eid, Harbolnas, Payday)"]
-    B --> C["14-Day Demand Forecast"]
-    C --> D["Hybrid Decision Layer\n(Risk Score + Safety Stock + Lost Sales)"]
-    D --> E["Actionable Next.js Dashboard"]
+    A["Public Baseline Retail Data\n+ Indonesian Context Overlay"] --> B["ai_pipeline/train.py\n(Offline LightGBM Training)"]
+    B --> C["Export Artifact:\nsakapinta_model.joblib"]
+    C --> D["FastAPI Backend\n(Static Core Inference)"]
+    D --> E["Hybrid Decision Layer\n(Risk Score + Safety Stock + Financial Loss)"]
+    E --> F["Actionable Next.js Dashboard"]
 ```
 
 ---
 
-## Key Features
+## Key Features & AI Architecture
 
-1. **Synthetic Data Augmentation & Indonesian Context**:
-   - Accounts for Indonesian retail surges: Ramadan / Eid al-Fitr (+185%), Harbolnas (11.11 / 12.12), and monthly Gajian paydays (25th to 1st).
-2. **Dynamic Safety Stock Calculation**:
-   - $SS = \lceil 1.65 \times \sigma_{\text{forecast}} \times \sqrt{L} \rceil$ calibrated for a 95% service level.
-3. **Multi-Factor Stockout Risk Scoring**:
+1. **Offline AI Pipeline & Synthetic Data Augmentation**:
+   - Automated offline training script (`ai_pipeline/train.py`) and Kaggle GPU Notebook (`ai_pipeline/train_kaggle.ipynb`).
+   - Accounts for Indonesian retail temporal anomalies: Ramadan / Eid al-Fitr (+185%), Harbolnas (9.9, 10.10, 11.11, 12.12), and monthly Gajian paydays (25th to 1st).
+2. **Exploratory Data Analysis (EDA) & IQR Outlier Filter**:
+   - Generates EDA plots stored in `docs/eda/`:
+     - `daily_sales_distribution.png`: Sales quantity distribution before & after IQR filtering.
+     - `time_series_decomposition.png`: Trend, seasonality, and residual breakdown.
+     - `outlier_detection_iqr.png`: Boxplot visualization of IQR bounds.
+3. **Static Core Inference (Strict MVP Rule)**:
+   - Synchronous FastAPI backend loads pre-trained `sakapinta_model.joblib` for instantaneous static inference (< 10 ms CPU). No model retraining occurs during API calls.
+4. **Dynamic Safety Stock Calculation**:
+   - $SS = \lceil 1.65 \times \sigma_{\text{forecast}} \times \sqrt{L} \rceil$ calibrated for a 95% service level standard.
+5. **Multi-Factor Stockout Risk Scoring**:
    - Classifies SKUs into **High (Kritis)**, **Medium**, and **Low (Aman)** risk categories.
-4. **Financial What-If Simulation**:
+6. **Financial What-If Simulation**:
    - Simulates revenue at risk (Potential Lost Sales in IDR) and interactive budget constraint re-allocation.
-5. **Interactive Recharts Visualization**:
-   - Clean composite view of 20-day historical actuals + 14-day forecasted curve with confidence bounds ($P_{10}$ & $P_{90}$).
-6. **1-Click Indonesian SME Retail Sample Data**:
-   - Test instantly without uploading external files via the built-in mock dataset button.
+7. **1-Click Indonesian SME Retail Sample Data**:
+   - Test instantly without uploading external files via the built-in mock dataset button (`mock_data/id_retail_sample.csv`).
 
 ---
 
@@ -47,6 +54,23 @@ docker-compose up --build
 - **Frontend UI**: [http://localhost:3000](http://localhost:3000)
 - **Backend API & Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 - **API Health Check**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
+
+---
+
+## Offline AI Model Training & Kaggle Execution
+
+### 1. Local Training & EDA Generation
+To re-run the offline AI training pipeline, IQR outlier removal, feature engineering, and model export:
+```bash
+python ai_pipeline/train.py
+```
+*Outputs:*
+- Metrics: RMSE ~13.54, MAPE ~22.13%
+- Visualizations: `docs/eda/outlier_detection_iqr.png`, `daily_sales_distribution.png`, `time_series_decomposition.png`
+- Model Binary: `backend/app/models/sakapinta_model.joblib`
+
+### 2. Kaggle GPU (T4x2) Execution
+Upload `ai_pipeline/train_kaggle.ipynb` to Kaggle to execute GPU benchmarking experiments comparing LightGBM, XGBoost, and N-BEATS architectures.
 
 ---
 
@@ -77,9 +101,13 @@ sakapinta/
 ├── docker-compose.yml              # Single-command multi-container deployment
 ├── GEMINI.md                       # Hackathon & MVP rules
 ├── README.md                       # Getting started guide
+├── ai_pipeline/
+│   ├── train.py                    # Offline LightGBM training & EDA script
+│   └── train_kaggle.ipynb          # Kaggle GPU (T4x2) benchmark notebook
 ├── mock_data/
 │   └── id_retail_sample.csv        # Realistic Indonesian SME retail dataset
 ├── docs/
+│   ├── eda/                        # Generated EDA plots (.png)
 │   ├── PRD.md                      # Product Requirements Document
 │   ├── Proposal.md                 # Scientific & Business Methodology
 │   └── Technical_Architecture.md   # Architecture & API Specs
@@ -89,10 +117,12 @@ sakapinta/
 │   └── app/
 │       ├── __init__.py
 │       ├── main.py                 # FastAPI application endpoints
+│       ├── models/
+│       │   └── sakapinta_model.joblib # Pre-trained LightGBM model artifact
 │       └── core/
 │           ├── __init__.py
 │           ├── data_prep.py        # CSV parsing & Indonesian calendar features
-│           ├── inference.py        # 14-day demand forecast engine
+│           ├── inference.py        # Static 14-day demand forecast engine
 │           └── decision_layer.py   # Safety Stock, Risk Score & Lost Sales logic
 └── frontend/
     ├── Dockerfile                  # Node.js Alpine container image
