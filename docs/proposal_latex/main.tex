@@ -27,12 +27,12 @@
     bottom=3cm,
     left=3cm,
     right=3cm,
-    headheight=15pt
+    headheight=16pt
 }
 
 \onehalfspacing
 \setlength{\parindent}{1cm}
-\setlength{\parskip}{0.4em}
+\setlength{\parskip}{0.35em}
 
 % --- PENGATURAN HYPERREF & WARNA TAUTAN AKADEMIK ---
 \hypersetup{
@@ -44,11 +44,11 @@
     pdftitle={Proposal Sakapinta - COMPFEST 18 AI Innovation Challenge}
 }
 
-% --- PENGATURAN HEADER & FOOTER ---
+% --- PENGATURAN HEADER & FOOTER DENGAN LOGO SAKAPINTA ---
 \pagestyle{fancy}
 \fancyhf{}
-\rhead{\textit{\footnotesize COMPFEST 18 AIC — Sakapinta}}
-\lhead{\textit{\footnotesize KKN: Kelompok Kecerdasan Neural}}
+\lhead{\raisebox{-0.08cm}{\includegraphics[height=0.45cm]{figures/Sakapinta.png}}\hspace{0.2cm}\textit{\footnotesize Sakapinta --- Tiang Penyangga Keputusan Stok UMKM}}
+\rhead{\textit{\footnotesize COMPFEST 18 AIC}}
 \cfoot{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
@@ -61,16 +61,16 @@
     \centering
     \vspace*{0.2cm}
     
-    {\small \textbf{AI INNOVATION CHALLENGE 2026 — COMPFEST 18}\par}
-    \vspace{0.1cm}
-    {\footnotesize \textbf{Tema: AI for the Backbone of the Economy (Pilar: Smart Commerce \& Smart Logistics)}\par}
+    {\normalsize \textbf{AI INNOVATION CHALLENGE 2026 --- COMPFEST 18}\par}
+    \vspace{0.15cm}
+    {\small \textbf{Pilar: Smart Commerce \& Smart Logistics}\par}
     
     \vspace{0.6cm}
-    \includegraphics[width=2.4cm]{figures/Sakapinta.png}\par
-    \vspace{0.3cm}
+    \includegraphics[width=3.2cm]{figures/Sakapinta.png}\par
+    \vspace{0.35cm}
     
     {\Huge \textbf{SAKAPINTA}\par}
-    \vspace{0.2cm}
+    \vspace{0.25cm}
     {\large \textbf{Sistem Preskriptif Pendukung Keputusan Stok Ritel UMKM Berbasis Multi-Quantile Gradient Boosting dan Stochastic Buffer}\par}
     \vspace{0.25cm}
     {\normalsize \textit{``Tiang Penyangga Keputusan Stok UMKM Indonesia''}\par}
@@ -81,29 +81,27 @@
 
     \begin{minipage}{0.92\textwidth}
         \footnotesize
-        \textbf{Identitas Pengusul Inovasi:}\\[0.15cm]
-        \begin{tabular}{ll}
-            \textbf{Nama Tim:} & KKN: Kelompok Kecerdasan Neural \\
-            \textbf{Ketua Tim:} & Husni Abdillah \\
-            \textbf{Anggota Tim:} & Fatiyya Ilmi Zahra, Gilang Agung Prakoso, \\
-            & Naufal Ghifari Afdhala, Arief Abdul Rahman \\
-        \end{tabular}
+        \textbf{Nama Tim:} KKN (Kelompok Kecerdasan Neural)\\[0.25cm]
+        \textbf{Anggota Tim:}\\[0.1cm]
+        1. Husni Abdillah (Ketua Tim)\\
+        2. Fatiyya Ilmi Zahra\\
+        3. Gilang Agung Prakoso\\
+        4. Naufal Ghifari Afdhala\\
+        5. Arief Abdul Rahman\\
     \end{minipage}
 
-    \vspace{0.5cm}
+    \vspace{0.6cm}
 
-    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={\footnotesize \textbf{Tautan Akses Luaran \& Artefak Digital (Deliverables)}},arc=2mm]
+    \begin{tcolorbox}[colback=blue!4!white,colframe=blue!70!black,title={\footnotesize \textbf{Tautan Akses Luaran \& Artefak Digital}},arc=1.5mm]
         \footnotesize
-        \begin{itemize}[leftmargin=0.4cm,itemsep=0pt,topsep=0pt]
+        \begin{itemize}[leftmargin=0.4cm,itemsep=1pt,topsep=0pt]
             \item \textbf{Repositori GitHub:} \href{https://github.com/HusniAbdillah/Sakapinta}{\texttt{https://github.com/HusniAbdillah/Sakapinta}}
-            \item \textbf{Live Web Deployment:} \href{http://34.44.169.181}{\texttt{http://34.44.169.181}} (Akses Port 80 GCP VM)
-            \item \textbf{Video Proof of Work (PoW):} \href{https://youtu.be/id_video_pow}{\texttt{https://youtu.be/id\_video\_pow}} (\textit{Unlisted})
-            \item \textbf{Video Promosi Karya:} \href{https://youtu.be/id_video_promosi}{\texttt{https://youtu.be/id\_video\_promosi}} (\textit{Public})
+            \item \textbf{Live Web Deployment:} \href{http://34.44.169.181}{\texttt{http://34.44.169.181}}
+            \item \textbf{Video Proof of Work:} \href{https://youtu.be/id_video_pow}{\texttt{https://youtu.be/id\_video\_pow}}
+            \item \textbf{Video Promosi Karya:} \href{https://youtu.be/id_video_promosi}{\texttt{https://youtu.be/id\_video\_promosi}}
         \end{itemize}
     \end{tcolorbox}
-
     \vfill
-    {\footnotesize \textbf{INDONESIA --- 2026}\par}
 \end{titlepage}
 
 \newpage
@@ -136,33 +134,22 @@ Penelitian dan pengembangan ini menghadirkan \textbf{Sakapinta}, sebuah sistem p
 \subsection{Urgensi Permasalahan Logistik dan Manajemen Persediaan UMKM}
 Usaha Mikro, Kecil, dan Menengah (UMKM) merupakan tulang punggung perekonomian Indonesia (\textit{backbone of the economy}). Berdasarkan data resmi \citet{bps2023profil}, sektor UMKM menyerap sekitar 97\% dari total angkatan kerja nasional serta berkontribusi lebih dari 61\% terhadap pembentukan Produk Domestik Bruto (PDB). Di dalam struktur tersebut, sektor perdagangan ritel dan grosir barang kebutuhan pokok (sembako) memegang peranan krusial sebagai urat nadi distribusi konsumsi masyarakat sehari-hari \citep{bi2023laporan}.
 
-Meskipun memegang peranan vital, operasional harian pedagang ritel UMKM di Indonesia masih dikelola secara konvensional berbasis intuisi manual (\textit{rule of thumb}) \citep{fildes2022retail}. Pedagang kerap mengalami kesulitan akut dalam menyeimbangkan volume pengadaan barang dagangan dengan laju permintaan konsumen yang dinamis. Ketidakmampuan ini memicu dua anomali operasional yang merugikan:
-\begin{enumerate}[label=\alph*.]
-    \item \textbf{Kerugian Akibat \textit{Stockout} (Kehabisan Stok):} Ketika permintaan konsumen melonjak secara tiba-tiba, ketiadaan stok pengaman (\textit{safety stock}) menyebabkan terjadinya kehilangan penjualan (\textit{lost sales}). Studi empiris rantai pasok ritel menunjukkan bahwa insiden \textit{stockout} menurunkan pendapatan kotor ritel mikro sebesar 8\% hingga 15\% serta berisiko memindahkan loyalitas pelanggan ke kompetitor \citep{chopra2019supply}.
-    \item \textbf{Inefisiensi Modal Akibat \textit{Overstocking} (Penumpukan Stok):} Sebaliknya, pengadaan barang dalam kuantitas berlebih tanpa dasar analitik yang terukur mengikat modal kerja likuid sebesar 12\% hingga 20\% dalam bentuk barang mati (\textit{dead stock}), mempertinggi biaya simpan (\textit{holding cost}), dan meningkatkan risiko kerusakan barang kedaluwarsa \citep{silver2016inventory}.
-\end{enumerate}
+Meskipun memegang peranan vital, operasional harian pedagang ritel UMKM di Indonesia masih dikelola secara konvensional berbasis intuisi manual (\textit{rule of thumb}) \citep{fildes2022retail}. Pedagang kerap mengalami kesulitan akut dalam menyeimbangkan volume pengadaan barang dagangan dengan laju permintaan konsumen yang dinamis. Ketidakmampuan ini memicu dua anomali operasional yang merugikan. Pertama, ketika permintaan konsumen melonjak secara tiba-tiba, ketiadaan stok pengaman (\textit{safety stock}) menyebabkan terjadinya kehabisan stok (\textit{stockout}) yang berujung pada hilangnya potensi penjualan (\textit{lost sales}). Studi empiris membuktikan bahwa insiden kehabisan stok menurunkan pendapatan kotor ritel mikro sebesar 8\% hingga 15\% serta berisiko memindahkan loyalitas pelanggan ke toko kompetitor \citep{chopra2019supply}. Kedua, pengadaan barang dalam kuantitas berlebih tanpa dasar analitik yang terukur mengakibatkan penumpukan stok (\textit{overstocking}) yang mengikat modal kerja likuid sebesar 12\% hingga 20\% dalam bentuk barang mati (\textit{dead stock}), mempertinggi biaya penyimpanan (\textit{holding cost}), dan meningkatkan risiko kerusakan barang kedaluwarsa \citep{silver2016inventory}.
 
-Permasalahan logistik ini semakin kompleks akibat karakteristik pola belanja masyarakat Indonesia yang memiliki lonjakan musiman multi-skala:
-\begin{itemize}
-    \item \textbf{Siklus Pembayaran Gaji (\textit{Payday}):} Lonjakan daya beli yang konsisten terjadi pada rentang tanggal 25 hingga tanggal 1 awal bulan berikutnya.
-    \item \textbf{Festival Belanja Daring (\textit{Harbolnas}):} Lonjakan transaksi pada tanggal-tanggal kembar nasional (seperti 9.9, 10.10, 11.11, dan 12.12).
-    \item \textbf{Pergeseran Penanggalan Hijriah (Ramadan dan Idulfitri):} Pergeseran musim puncak belanja sembako, kurma, sirup, dan biskuit yang maju sekitar 10--11 hari setiap tahun masehi.
-    \item \textbf{Variabilitas Waktu Pengiriman (\textit{Lead Time Jitter}):} Ketidakpastian jadwal kedatangan pasokan dari distributor atau pasar induk akibat kendala geografis dan kemacetan lalu lintas logistik domestik \citep{makridakis2022m5}.
-\end{itemize}
+Kompleksitas logistik persediaan ini kian diperparah oleh karakteristik pasar Indonesia yang dipengaruhi berbagai siklus musiman multiskala. Pola belanja masyarakat menunjukkan lonjakan tajam pada periode pembayaran gaji bulanan (\textit{Payday}) antara tanggal 25 hingga tanggal 1. Selain itu, festival belanja daring nasional (\textit{Harbolnas}) pada tanggal-tanggal kembar memicu efek limpahan permintaan pada toko luring. Pergeseran penanggalan lunar Hijriah pada bulan Ramadan dan Idulfitri juga menciptakan pergeseran musiman tahunan sekitar 10--11 hari lebih awal setiap tahunnya. Di sisi rantai pasok hulu, variabilitas jadwal kedatangan pasokan dari distributor atau pasar induk (\textit{lead time jitter}) menciptakan ketidakpastian ganda yang sulit diatasi hanya dengan perhitungan manual \citep{makridakis2022m5}.
 
 \subsection{Kesenjangan Solusi Saat Ini dan Orisinalitas Pendekatan Sakapinta}
-Perkembangan teknologi perangkat lunak saat ini telah melahirkan berbagai aplikasi Kasir Digital (\textit{Point of Sale} / POS) dan sistem pembukuan digital di Indonesia. Namun, telaah mendalam terhadap solusi eksisting mengidentifikasi kesenjangan fundamental (\textit{fundamental gap}):
-\begin{enumerate}
-    \item \textbf{Keterbatasan Analisis Deskriptif Pasif:} Sebagian besar perangkat lunak POS hanya berfungsi sebagai alat pencatatan historis dan penyaji grafik statistik transaksi masa lalu. Sistem tersebut menuntut pemilik toko untuk menyimpulkan sendiri tindakan pengadaan apa yang harus diambil, sehingga beban kognitif pengambilan keputusan tetap berada pada pelaku UMKM.
-    \item \textbf{Kelemahan Model Peramalan Titik Tunggal (\textit{Point Forecast}):} Model peramalan konvensional (seperti \textit{Simple Moving Average} atau regresi linier sederhana) hanya menghasilkan estimasi satu titik angka tunggal tanpa menyertakan batas ketidakpastian (\textit{uncertainty bound}), sehingga sangat rentan meleset saat terjadi lonjakan anomali musiman \citep{hyndman2021forecasting}.
-    \item \textbf{Ketiadaan Lapisan Preskriptif Terkalibrasi Biaya:} Solusi yang ada belum mampu mengonversi angka peramalan menjadi rekomendasi kuantitas pemesanan ulang (\textit{reorder quantity}) yang terintegrasi secara matematis dengan stokastik waktu tunggu pengiriman, kendala anggaran modal kerja, dan kuantifikasi kerugian moneter riil dalam mata uang Rupiah.
-\end{enumerate}
+Perkembangan teknologi perangkat lunak saat ini telah melahirkan berbagai aplikasi Kasir Digital (\textit{Point of Sale} / POS) dan sistem pembukuan digital di Indonesia. Namun, telaah mendalam terhadap ekosistem perangkat lunak yang ada menunjukkan beberapa kesenjangan mendasar.
+
+Mayoritas aplikasi kasir yang beredar hanya berfokus pada fungsi pencatatan kasir dan penyajian grafik deskriptif historis transaksi masa lalu. Sistem tersebut menuntut pemilik toko untuk menganalisis grafik sendiri dan menebak kuantitas barang yang harus dipesan, sehingga beban kognitif pengambilan keputusan tetap berada sepenuhnya pada pelaku usaha. Di samping itu, model peramalan statistik konvensional yang kerap digunakan hanya menghasilkan satu angka estimasi tunggal (\textit{point forecast}) tanpa memberikan rentang ketidakpastian (\textit{uncertainty bound}). Pendekatan titik tunggal ini sangat rentan meleset ketika terjadi lonjakan permintaan tak terduga \citep{hyndman2021forecasting}.
+
+Kelemahan paling krusial adalah ketiadaan lapisan preskriptif yang terkalibrasi secara finansial. Solusi eksisting belum mampu mengonversi angka peramalan menjadi rekomendasi kuantitas pemesanan ulang (\textit{reorder quantity}) yang terintegrasi langsung dengan ketidakpastian waktu tunggu distributor, batas anggaran likuid toko, dan kuantifikasi potensi kerugian omset dalam nominal Rupiah.
 
 \begin{table}[H]
     \centering
-    \caption{Komparasi Solusi Eksisting vs. Orisinalitas Sakapinta}
+    \caption{Komparasi Solusi Eksisting vs. Orisinalitas Pendekatan Sakapinta}
     \label{tab:komparasi_solusi}
-    \footnotesize
+    \small
     \begin{tabularx}{\textwidth}{lXX}
         \toprule
         \textbf{Dimensi Evaluasi} & \textbf{Solusi POS / ERP Konvensional} & \textbf{Pendekatan Orisinal Sakapinta} \\
@@ -195,12 +182,9 @@ Pengembangan sistem Sakapinta bertujuan untuk:
 \end{enumerate}
 
 \subsection{Manfaat Ekonomi, Kelayakan Bisnis, dan Estimasi ROI}
-Implementasi sistem Sakapinta memberikan manfaat nyata bagi berbagai pemangku kepentingan:
-\begin{itemize}
-    \item \textbf{Bagi Pelaku Usaha Mikro (Warung dan Toko Kelontong):} Mengurangi insiden kehabisan stok barang laris hingga di atas 85\%, mengamankan omset harian, serta mencegah penumpukan modal pada barang lambat laku.
-    \item \textbf{Bagi Distributor dan Pemasok Sembako Menengah:} Memfasilitasi konsolidasi pemesanan barang yang terstruktur dan terjadwal secara periodik, menurunkan frekuensi pengiriman mendadak yang tidak efisien (\textit{emergency orders}), serta meredam efek cambuk rantai pasok (\textit{bullwhip effect}).
-    \item \textbf{Estimasi \textit{Return on Investment} (ROI):} Berdasarkan simulasi empiris pada portofolio 12 SKU ritel, sistem berhasil mengidentifikasi proteksi omset sebesar \textbf{Rp 126.150.500} dari potensi risiko \textit{stockout}, sekaligus mengeliminasi pengeluaran modal restock sebesar \textbf{Rp 14.850.000} pada komoditas yang masih berstatus \textit{overstocked} (seperti sabun cuci piring dan tepung terigu). Rasio perputaran persediaan (\textit{inventory turnover}) diproyeksikan meningkat sebesar 25\%--35\% dalam kuartal pertama adopsi.
-\end{itemize}
+Implementasi sistem Sakapinta memberikan dampak ekonomi nyata bagi pelaku usaha mikro seperti warung dan toko kelontong melalui penurunan insiden kehabisan stok barang laris hingga di atas 85\%, perlindungan omset penjualan harian, serta penghapusan modal mati pada barang yang lambat laku. Bagi distributor dan pemasok barang grosir, sistem ini memfasilitasi konsolidasi jadwal pemesanan barang secara periodik dan terstruktur, mengurangi frekuensi pengiriman darurat yang membebani biaya armada logistik, serta meredam distorsi efek cambuk rantai pasok (\textit{bullwhip effect}).
+
+Dari aspek kelayakan finansial (\textit{Return on Investment}), simulasi empiris pada portofolio 12 SKU ritel membuktikan bahwa Sakapinta berhasil mengidentifikasi proteksi omset sebesar \textbf{Rp 126.150.500} dari potensi risiko kehabisan stok. Bersamaan dengan itu, sistem mencegah pembengkakan modal restock sebesar \textbf{Rp 14.850.000} pada komoditas yang posisinya masih berlebih (\textit{overstocked}) seperti sabun cuci piring dan tepung terigu. Tingkat perputaran persediaan (\textit{inventory turnover ratio}) diproyeksikan meningkat sebesar 25\%--35\% pada kuartal pertama pengoperasian sistem.
 
 % =========================================================================
 % BAB 3: METODOLOGI PENGEMBANGAN
@@ -211,7 +195,7 @@ Implementasi sistem Sakapinta memberikan manfaat nyata bagi berbagai pemangku ke
 Dataset yang digunakan dalam penelitian ini merupakan agregasi data transaksi penjualan ritel kebutuhan pokok harian domestik. Dataset dibersihkan dan distandardisasi melalui modul pemrosesan data otomatis (\textit{data prep engine}).
 
 \subsubsection{Pembersihan Anomali (\textit{IQR Outlier Filtering})}
-Data penjualan historis $y_t$ kerap mengandung pencatatan keliru atau lonjakan tak wajar akibat kesalahan input manual. Deteksi anomali dilakukan menggunakan metode rentang antar-kuartil (\textit{Interquartile Range} / IQR):
+Data transaksi penjualan historis $y_t$ kerap mengandung anomali akibat salah ketik kasir atau lonjakan temporer tak berulang. Pembersihan data dilakukan menggunakan teknik rentang antar-kuartil (\textit{Interquartile Range} / IQR) sebagaimana diilustrasikan pada Gambar \ref{fig:outlier_iqr}:
 \begin{align}
     \text{IQR} &= Q_3 - Q_1 \\
     y_t^{\text{clean}} &= 
@@ -224,13 +208,13 @@ Data penjualan historis $y_t$ kerap mengandung pencatatan keliru atau lonjakan t
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{figures/outlier_detection_iqr.png}
+    \includegraphics[width=0.75\textwidth]{figures/outlier_detection_iqr.png}
     \caption{Deteksi dan Eliminasi Anomali Data Penjualan Menggunakan IQR Filtering}
     \label{fig:outlier_iqr}
 \end{figure}
 
 \subsubsection{Rekayasa Fitur Siklis (\textit{Fourier Harmonics})}
-Untuk menangkap kontinuitas musiman tahunan dan bulanan tanpa menciptakan diskontinuitas buatan, diterapkan transformasi basis ortogonal Fourier:
+Untuk menangkap kontinuitas siklus musiman tahunan dan bulanan tanpa menciptakan diskontinuitas buatan, diterapkan transformasi basis ortogonal Fourier yang menghasilkan dekomposisi deret waktu halus (Gambar \ref{fig:ts_decomposition}):
 \begin{align}
     \text{Fourier}_{\sin, \text{annual}} &= \sin\left(\frac{2\pi \cdot t_{\text{yday}}}{365.25}\right), \quad \text{Fourier}_{\cos, \text{annual}} = \cos\left(\frac{2\pi \cdot t_{\text{yday}}}{365.25}\right) \\
     \text{Fourier}_{\sin, \text{monthly}} &= \sin\left(\frac{2\pi \cdot t_{\text{day}}}{30.5}\right), \quad \text{Fourier}_{\cos, \text{monthly}} = \cos\left(\frac{2\pi \cdot t_{\text{day}}}{30.5}\right)
@@ -238,18 +222,13 @@ Untuk menangkap kontinuitas musiman tahunan dan bulanan tanpa menciptakan diskon
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\textwidth]{figures/time_series_decomposition.png}
+    \includegraphics[width=0.78\textwidth]{figures/time_series_decomposition.png}
     \caption{Dekomposisi Deret Waktu Penjualan Ritel (Tren, Musiman, dan Komponen Residual)}
     \label{fig:ts_decomposition}
 \end{figure}
 
 \subsubsection{Injeksi Indikator Musiman Nasional Indonesia}
-Fitur kontekstual lokal diintegrasikan untuk menangkap lonjakan spesifik perilaku konsumen Indonesia:
-\begin{itemize}
-    \item $I_{\text{payday}} \in \{0, 1\}$: Bernilai $1$ jika hari berada pada rentang tanggal 25 hingga tanggal 1 (siklus gajian).
-    \item $I_{\text{harbolnas}} \in \{0, 1\}$: Bernilai $1$ pada tanggal kembar promosi e-commerce nasional (9.9, 10.10, 11.11, 12.12, dan HUT RI 17 Agustus).
-    \item $I_{\text{ramadan}} \in \{0, 1\}$: Bernilai $1$ selama periode Ramadan dan puncak Idulfitri dengan pengali elastisitas permintaan $\kappa_{\text{season}} \in [1.20, 1.85]$.
-\end{itemize}
+Fitur kontekstual kalender Indonesia diintegrasikan untuk menangkap lonjakan spesifik perilaku konsumen. Indikator $I_{\text{payday}} \in \{0, 1\}$ bernilai $1$ jika hari berada pada rentang tanggal 25 hingga tanggal 1. Indikator $I_{\text{harbolnas}} \in \{0, 1\}$ bernilai $1$ pada tanggal kembar promosi e-commerce nasional (9.9, 10.10, 11.11, 12.12, dan HUT RI). Indikator $I_{\text{ramadan}} \in \{0, 1\}$ bernilai $1$ selama periode Ramadan dan puncak Idulfitri dengan pengali elastisitas permintaan $\kappa_{\text{season}} \in [1.20, 1.85]$.
 
 \subsubsection{Fitur Keterlambatan dan Kehalusan Tren (\textit{Lag \& Dual EWMA})}
 Sistem mengekstrak fitur lag diskrit ($y_{t-7}, y_{t-14}, y_{t-21}, y_{t-28}$), statistik bergulir (\textit{rolling mean \& std}), serta \textit{Exponential Weighted Moving Average} (EWMA) ganda dengan rentang waktu ($\text{span}$) 7 dan 14 hari guna memitigasi keterlambatan fase pergeseran tren:
@@ -270,11 +249,11 @@ Sakapinta mengadopsi algoritma \textit{Light Gradient Boosting Machine} (LightGB
 \begin{equation}
     \mathcal{L}_{\tau}(y, \hat{y}) = \max\left(\tau (y - \hat{y}), \; (\tau - 1)(y - \hat{y})\right), \quad \tau \in \{0.10, 0.50, 0.90\}
 \end{equation}
-di mana $\hat{y}_{P10}$ merepresentasikan skenario pesimis (batas bawah), $\hat{y}_{P50}$ merupakan proyeksi median terdistribusi, dan $\hat{y}_{P90}$ merepresentasikan batas atas lonjakan permintaan (\textit{upper demand surge}).
+di mana $\hat{y}_{P10}$ merepresentasikan skenario pesimis (batas bawah), $\hat{y}_{P50}$ merupakan proyeksi median terdistribusi, dan $\hat{y}_{P90}$ merepresentasikan batas atas lonjakan permintaan (\textit{upper demand surge}) sebagaimana divisualisasikan pada Gambar \ref{fig:quantile_uncertainty}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\textwidth]{figures/quantile_forecast_uncertainty.png}
+    \includegraphics[width=0.78\textwidth]{figures/quantile_forecast_uncertainty.png}
     \caption{Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}
     \label{fig:quantile_uncertainty}
 \end{figure}
@@ -283,10 +262,10 @@ di mana $\hat{y}_{P10}$ merepresentasikan skenario pesimis (batas bawah), $\hat{
     \centering
     \caption{Konfigurasi Hiperparameter Model LightGBM Sakapinta}
     \label{tab:hyperparameters}
-    \footnotesize
-    \begin{tabular}{lll}
+    \small
+    \begin{tabularx}{\textwidth}{llX}
         \toprule
-        \textbf{Hiperparameter} & \textbf{Nilai Konfigurasi} & \textbf{Rasional Desain} \\
+        \textbf{Hiperparameter} & \textbf{Nilai} & \textbf{Rasional Desain} \\
         \midrule
         \texttt{objective} & \texttt{quantile} ($\alpha \in \{0.10, 0.50, 0.90\}$) & Estimasi interval ketidakpastian empiris \\
         \texttt{n\_estimators} & 450 pohon & Konvergensi bertahap dengan regularisasi \\
@@ -295,7 +274,7 @@ di mana $\hat{y}_{P10}$ merepresentasikan skenario pesimis (batas bawah), $\hat{
         \texttt{subsample} & 0.85 & \textit{Stochastic bagging} untuk diversitas pohon \\
         \texttt{colsample\_bytree} & 0.85 & \textit{Feature subsampling} untuk mencegah ko-korelasi \\
         \bottomrule
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 \subsubsection{Formulasi Metrik Evaluasi dan Hasil Komparasi Eksperimen}
@@ -309,23 +288,25 @@ Kinerja peramalan dievaluasi menggunakan empat metrik standar internasional \cit
 
 \begin{table}[H]
     \centering
-    \caption{Hasil Eksperimen Komparasi Model (Data Uji Ritel Domestik)}
+    \caption{Hasil Eksperimen Komparasi Model pada Data Uji Ritel}
     \label{tab:benchmark_results}
+    \resizebox{\textwidth}{!}{
     \begin{tabular}{lcccc}
         \toprule
         \textbf{Arsitektur Model} & \textbf{RMSE} $\downarrow$ & \textbf{MAE} $\downarrow$ & \textbf{MAPE (\%)} $\downarrow$ & \textbf{$R^2$} $\uparrow$ \\
         \midrule
-        XGBoost Regressor Baseline \citep{chen2016xgboost} & 19.5120 & 15.5618 & 28.59\% & 0.1400 \\
+        XGBoost Baseline \citep{chen2016xgboost} & 19.5120 & 15.5618 & 28.59\% & 0.1400 \\
         \textbf{LightGBM Multi-Quantile (Sakapinta)} & \textbf{14.0265} & \textbf{10.9895} & \textbf{20.84\%} & \textbf{0.5556} \\
         \midrule
         \textbf{Peningkatan Performa} & \textbf{+28.11\%} & \textbf{+29.38\%} & \textbf{+27.11\%} & \textbf{+296.8\%} \\
         \bottomrule
     \end{tabular}
+    }
 \end{table}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.82\textwidth]{figures/model_benchmark_comparison.png}
+    \includegraphics[width=0.72\textwidth]{figures/model_benchmark_comparison.png}
     \caption{Komparasi Metrik Evaluasi Model (LightGBM Multi-Quantile vs. XGBoost Baseline)}
     \label{fig:model_benchmark}
 \end{figure}
@@ -337,14 +318,7 @@ Berbeda dengan formula \textit{safety stock} klasik yang mengasumsikan waktu tun
 \begin{equation}
     SS_i = \left\lceil Z \times \sqrt{L_i \cdot \sigma_{D, i}^2 + \bar{D}_i^2 \cdot \sigma_{L, i}^2} \right\rceil
 \end{equation}
-di mana:
-\begin{itemize}
-    \item $Z = 1.65$ (Faktor kuantil distribusi normal standar untuk target \textit{Service Level} 95.0\%).
-    \item $L_i = 3.0\text{ hari}$ (Rata-rata waktu transit distributor sembako domestik).
-    \item $\sigma_{L, i} = 0.60\text{ hari}$ (Standar deviasi variansi keterlambatan logistik distributor).
-    \item $\bar{D}_i = \frac{1}{H}\sum_{t=1}^{H} \hat{y}_{i, t}$ (Rata-rata permintaan peramalan harian horizon $H=14\text{ hari}$).
-    \item $\sigma_{D, i} = \text{Standar deviasi residual galat model peramalan}$.
-\end{itemize}
+di mana $Z = 1.65$ merepresentasikan faktor kuantil normal baku untuk target \textit{Service Level} 95.0\%, $L_i = 3.0\text{ hari}$ merupakan rata-rata waktu transit distributor, $\sigma_{L, i} = 0.60\text{ hari}$ adalah deviasi keterlambatan pengiriman, $\bar{D}_i$ adalah rata-rata proyeksi permintaan harian, dan $\sigma_{D, i}$ adalah standar deviasi residual model.
 
 \subsubsection{Dekomposisi Permintaan Intermiten (Croston's Hurdle Model)}
 Untuk komoditas lambat laku (\textit{slow-moving}) yang memiliki rasio hari tanpa penjualan $\ge 35\%$, estimasi regresi standar menghasilkan bias kuadratis. Sistem mengalihkan peramalan ke metode dekomposisi Croston \citep{croston1972forecasting, syntetos2005accuracy}:
@@ -371,13 +345,7 @@ Tingkat urgensi pengadaan barang dipetakan ke dalam skor komposit:
 \begin{equation}
     \text{Risk Score}_i = \min\left(100, \; \text{Score}_{\text{Depletion}} + \text{Score}_{\text{Volatility}} + \text{Score}_{\text{Holiday}}\right)
 \end{equation}
-dengan komponen skor:
-\begin{itemize}
-    \item $\text{Score}_{\text{Depletion}} = 40.0$ jika sisa ketahanan stok $D_{\text{rem}} \le 3\text{ hari}$; $25.0$ jika $D_{\text{rem}} \le 7\text{ hari}$; $10.0$ jika $D_{\text{rem}} \le 14\text{ hari}$; dan $0.0$ jika $D_{\text{rem}} > 14\text{ hari}$ ($D_{\text{rem}} = S_{\text{current}, i} / \bar{D}_i$).
-    \item $\text{Score}_{\text{Volatility}} = \min(30.0, \; \text{CV}_i \times 20.0)$ dengan koefisien variasi $\text{CV}_i = \sigma_{D, i} / \bar{D}_i$.
-    \item $\text{Score}_{\text{Holiday}} = 20.0$ jika horizon proyeksi bertepatan dengan anomali kalender (\textit{Payday/Harbolnas}), dan $5.0$ pada hari reguler.
-\end{itemize}
-Barang dengan sisa ketahanan $\ge 14\text{ hari}$ secara otomatis dikunci pada kategori \textbf{Low Risk} ($\le 30.0$).
+Komponen skor mencakup penalti penipisan stok $\text{Score}_{\text{Depletion}}$ bernilai $40.0$ jika sisa ketahanan stok $D_{\text{rem}} \le 3\text{ hari}$, $25.0$ jika $D_{\text{rem}} \le 7\text{ hari}$, $10.0$ jika $D_{\text{rem}} \le 14\text{ hari}$, dan $0.0$ jika stok berlebih ($D_{\text{rem}} = S_{\text{current}, i} / \bar{D}_i$). Komponen volatilitas dihitung sebagai $\text{Score}_{\text{Volatility}} = \min(30.0, \; \text{CV}_i \times 20.0)$ dengan koefisien variasi $\text{CV}_i = \sigma_{D, i} / \bar{D}_i$. Komponen hari libur $\text{Score}_{\text{Holiday}}$ bernilai $20.0$ pada musim puncak belanja dan $5.0$ pada hari biasa. Barang dengan ketahanan $\ge 14\text{ hari}$ secara otomatis dikunci pada status risiko rendah (\textit{Low Risk}).
 
 \subsubsection{Simulasi Anggaran Finansial (\textit{What-If Simulation})}
 Dalam situasi likuiditas modal terbatas $B_{\text{avail}} < \sum \text{Cost}_i$, Sakapinta mengurutkan komoditas berdasarkan bobot prioritas:
@@ -408,7 +376,7 @@ Sistem Sakapinta telah diuji secara menyeluruh menggunakan portofolio 12 SKU rit
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.92\textwidth]{figures/dashboard_overview.png}
+    \includegraphics[width=0.82\textwidth]{figures/dashboard_overview.png}
     \caption{Antarmuka Utama Dashboard Sakapinta (Upload CSV, Kartu KPI Eksekutif, dan Simulator Finansial What-If)}
     \label{fig:dashboard_overview}
 \end{figure}
@@ -447,7 +415,7 @@ Hasil pada Tabel \ref{tab:mvp_evaluation} membuktikan bahwa Sakapinta tidak hany
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.92\textwidth]{figures/dashboard_matrix_xai.png}
+    \includegraphics[width=0.82\textwidth]{figures/dashboard_matrix_xai.png}
     \caption{Matriks Prioritas Keputusan Stok, Laci Transparansi Matematis XAI, dan Proyeksi Deret Waktu Recharts}
     \label{fig:dashboard_matrix_xai}
 \end{figure}

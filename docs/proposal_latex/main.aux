@@ -11,50 +11,50 @@
 \citation{fildes2022retail}
 \citation{chopra2019supply}
 \citation{silver2016inventory}
+\citation{makridakis2022m5}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Latar Belakang}{1}{section.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Urgensi Permasalahan Logistik dan Manajemen Persediaan UMKM}{1}{subsection.1.1}\protected@file@percent }
-\citation{makridakis2022m5}
 \citation{hyndman2021forecasting}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Kesenjangan Solusi Saat Ini dan Orisinalitas Pendekatan Sakapinta}{2}{subsection.1.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Komparasi Solusi Eksisting vs. Orisinalitas Sakapinta}}{3}{table.caption.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Komparasi Solusi Eksisting vs. Orisinalitas Pendekatan Sakapinta}}{2}{table.caption.3}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:komparasi_solusi}{{1}{3}{Komparasi Solusi Eksisting vs. Orisinalitas Sakapinta}{table.caption.3}{}}
+\newlabel{tab:komparasi_solusi}{{1}{2}{Komparasi Solusi Eksisting vs. Orisinalitas Pendekatan Sakapinta}{table.caption.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Relevansi dengan Tema ``AI for the Backbone of the Economy''}{3}{subsection.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Tujuan dan Manfaat Pengembangan}{3}{section.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Tujuan Inovasi}{3}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Manfaat Ekonomi, Kelayakan Bisnis, dan Estimasi ROI}{4}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Metodologi Pengembangan}{5}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Alur Perolehan, Preprocessing Dataset, dan Rekayasa Fitur}{5}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Pembersihan Anomali (\textit  {IQR Outlier Filtering})}{5}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Manfaat Ekonomi, Kelayakan Bisnis, dan Estimasi ROI}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Metodologi Pengembangan}{4}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Alur Perolehan, Preprocessing Dataset, dan Rekayasa Fitur}{4}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Pembersihan Anomali (\textit  {IQR Outlier Filtering})}{4}{subsubsection.3.1.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Deteksi dan Eliminasi Anomali Data Penjualan Menggunakan IQR Filtering}}{5}{figure.caption.4}\protected@file@percent }
 \newlabel{fig:outlier_iqr}{{1}{5}{Deteksi dan Eliminasi Anomali Data Penjualan Menggunakan IQR Filtering}{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Rekayasa Fitur Siklis (\textit  {Fourier Harmonics})}{6}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Rekayasa Fitur Siklis (\textit  {Fourier Harmonics})}{5}{subsubsection.3.1.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Dekomposisi Deret Waktu Penjualan Ritel (Tren, Musiman, dan Komponen Residual)}}{6}{figure.caption.5}\protected@file@percent }
 \newlabel{fig:ts_decomposition}{{2}{6}{Dekomposisi Deret Waktu Penjualan Ritel (Tren, Musiman, dan Komponen Residual)}{figure.caption.5}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Injeksi Indikator Musiman Nasional Indonesia}{6}{subsubsection.3.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Fitur Keterlambatan dan Kehalusan Tren (\textit  {Lag \& Dual EWMA})}{6}{subsubsection.3.1.4}\protected@file@percent }
 \citation{ke2017lightgbm}
 \citation{koenker2001quantile}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Fitur Keterlambatan dan Kehalusan Tren (\textit  {Lag \& Dual EWMA})}{7}{subsubsection.3.1.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Alur Pengembangan Model AI dan Evaluasi Benchmark}{7}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Transformasi Target Terstabilisasi ($\text  {Log1p}$)}{7}{subsubsection.3.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Multi-Quantile LightGBM Regression}{7}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}}{7}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:quantile_uncertainty}{{3}{7}{Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}{figure.caption.6}{}}
 \citation{hyndman2021forecasting}
 \citation{chen2016xgboost}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}}{8}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:quantile_uncertainty}{{3}{8}{Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}{figure.caption.6}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Konfigurasi Hiperparameter Model LightGBM Sakapinta}}{8}{table.caption.7}\protected@file@percent }
 \newlabel{tab:hyperparameters}{{2}{8}{Konfigurasi Hiperparameter Model LightGBM Sakapinta}{table.caption.7}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Formulasi Metrik Evaluasi dan Hasil Komparasi Eksperimen}{8}{subsubsection.3.2.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Hasil Eksperimen Komparasi Model pada Data Uji Ritel}}{8}{table.caption.8}\protected@file@percent }
+\newlabel{tab:benchmark_results}{{3}{8}{Hasil Eksperimen Komparasi Model pada Data Uji Ritel}{table.caption.8}{}}
 \citation{chopra2019supply,silver2016inventory}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Hasil Eksperimen Komparasi Model (Data Uji Ritel Domestik)}}{9}{table.caption.8}\protected@file@percent }
-\newlabel{tab:benchmark_results}{{3}{9}{Hasil Eksperimen Komparasi Model (Data Uji Ritel Domestik)}{table.caption.8}{}}
+\citation{croston1972forecasting,syntetos2005accuracy}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Komparasi Metrik Evaluasi Model (LightGBM Multi-Quantile vs. XGBoost Baseline)}}{9}{figure.caption.9}\protected@file@percent }
 \newlabel{fig:model_benchmark}{{4}{9}{Komparasi Metrik Evaluasi Model (LightGBM Multi-Quantile vs. XGBoost Baseline)}{figure.caption.9}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Prescriptive Decision Layer dan Optimasi Operasional}{9}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Full Stochastic Joint Safety Stock ($SS$)}{9}{subsubsection.3.3.1}\protected@file@percent }
-\citation{croston1972forecasting,syntetos2005accuracy}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Dekomposisi Permintaan Intermiten (Croston's Hurdle Model)}{9}{subsubsection.3.3.2}\protected@file@percent }
 \citation{gelman2013bayesian}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Dekomposisi Permintaan Intermiten (Croston's Hurdle Model)}{10}{subsubsection.3.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Hierarchical Empirical Bayes Cold-Start Engine}{10}{subsubsection.3.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Kuantitas Pemesanan Ulang Preskriptif ($Q_{\text  {reorder}}$)}{10}{subsubsection.3.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Indeks Skor Risiko Stockout Multi-Faktor ($0 - 100$)}{10}{subsubsection.3.3.5}\protected@file@percent }
