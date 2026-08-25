@@ -9,39 +9,88 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#090d16",
         surface: {
-          50: "#1e293b",
-          100: "#131b2e",
-          200: "#0f172a",
-          300: "#0b1120",
+          DEFAULT: "#f8f9ff",
+          dim: "#ccdbf3",
+          bright: "#f8f9ff",
+          base: "#F8FAFC",
+          lowest: "#ffffff",
+          low: "#eff4ff",
+          container: "#e6eeff",
+          high: "#dce9ff",
+          highest: "#d5e3fc",
         },
-        brand: {
-          50: "#ecfdf5",
-          100: "#d1fae5",
-          400: "#34d399",
-          500: "#10b981",
-          600: "#059669",
-          700: "#047857",
+        "on-surface": {
+          DEFAULT: "#0d1c2e",
+          variant: "#414754",
         },
-        accent: {
-          amber: "#f59e0b",
-          rose: "#f43f5e",
-          cyan: "#06b6d4",
-          violet: "#8b5cf6",
-        }
+        "inverse-surface": {
+          DEFAULT: "#233144",
+          on: "#eaf1ff",
+        },
+        outline: {
+          DEFAULT: "#727786",
+          variant: "#c1c6d7",
+          border: "#e2e8f0",
+        },
+        primary: {
+          DEFAULT: "#0058c3",
+          container: "#0070f3",
+          fixed: "#d8e2ff",
+          "fixed-dim": "#aec6ff",
+          "on-fixed": "#001a43",
+        },
+        secondary: {
+          DEFAULT: "#00677c",
+          container: "#4fd9fd",
+          fixed: "#b2ebff",
+          "fixed-dim": "#4bd6fa",
+        },
+        tertiary: {
+          DEFAULT: "#5a5d5f",
+          container: "#737678",
+        },
+        "royal-blue": "#1E40AF",
+        "electric-cyan": "#00CED1",
+        success: {
+          DEFAULT: "#10B981",
+          light: "#d1fae5",
+          dark: "#065f46",
+        },
+        warning: {
+          DEFAULT: "#F59E0B",
+          light: "#fef3c7",
+          dark: "#92400e",
+        },
+        error: {
+          DEFAULT: "#EF4444",
+          container: "#ffdad6",
+          "on-container": "#93000a",
+        },
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "glass-gradient": "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)",
+      fontFamily: {
+        sans: ["'Space Grotesk'", "sans-serif"],
+        display: ["'Space Grotesk'", "sans-serif"],
+        mono: ["'JetBrains Mono'", "monospace"],
+        body: ["'JetBrains Mono'", "monospace"],
+      },
+      borderRadius: {
+        sm: "0.5rem",
+        DEFAULT: "1rem",
+        md: "1.5rem",
+        lg: "2rem",
+        xl: "3rem",
       },
       boxShadow: {
-        "glass": "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
-        "glow-emerald": "0 0 25px -5px rgba(16, 185, 129, 0.3)",
-        "glow-rose": "0 0 25px -5px rgba(244, 63, 94, 0.3)",
-      }
+        card: "0 4px 16px -2px rgba(13, 28, 46, 0.05), 0 2px 6px -1px rgba(13, 28, 46, 0.03)",
+        "card-hover": "0 12px 28px -4px rgba(0, 88, 195, 0.12), 0 4px 10px -2px rgba(13, 28, 46, 0.04)",
+        glass: "0 8px 32px 0 rgba(13, 28, 46, 0.06)",
+        "cyan-halo": "0 0 0 3px rgba(0, 206, 209, 0.25)",
+        "blue-halo": "0 0 0 3px rgba(0, 88, 195, 0.2)",
+      },
     },
   },
   plugins: [],
 };
+
 export default config;
