@@ -25,8 +25,8 @@ Sistem Preskriptif Pendukung Keputusan Stok Ritel UMKM Berbasis
 
  • Repositori GitHub: https://github.com/HusniAbdillah/Sakapinta
  • Live Web Deployment: http://34.44.169.181
- • Video Proof of Work: https://youtu.be/id_video_pow
- • Video Promosi Karya: https://youtu.be/id_video_promosi
+ • Video Proof of Work: https://tinyurl.com/video-proof-of-work-sakapinta
+ • Video Promosi Karya: https://tinyurl.com/video-promosi-sakapinta
 
 
 
