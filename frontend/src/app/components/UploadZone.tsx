@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { UploadCloud, FileSpreadsheet, Sparkles, AlertCircle, RefreshCw, CheckCircle2, Download } from "lucide-react";
+import { UploadCloud, FileSpreadsheet, Sparkles, AlertCircle, RefreshCw, CheckCircle2, Download, Zap } from "lucide-react";
 
 interface UploadZoneProps {
   onAnalyzeFile: (file: File | null) => Promise<void>;
@@ -77,8 +77,8 @@ export default function UploadZone({ onAnalyzeFile, loading, error }: UploadZone
         onDrop={handleDrop}
         className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-6 sm:p-8 transition-all duration-300 ${
           isDragOver
-            ? "border-brand-400 bg-brand-500/10 shadow-glow-emerald scale-[1.008]"
-            : "border-slate-700/80 bg-surface-200/50 hover:border-slate-600 hover:bg-surface-200/70"
+            ? "border-primary bg-primary/5 shadow-cyan-halo scale-[1.008]"
+            : "border-outline-variant/80 bg-white hover:border-primary/60 hover:bg-surface-container-low/40 shadow-card"
         }`}
       >
         <input
@@ -90,35 +90,35 @@ export default function UploadZone({ onAnalyzeFile, loading, error }: UploadZone
         />
 
         <div className="flex flex-col items-center text-center space-y-4">
-          <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-surface-100 to-surface-50 border border-slate-700 flex items-center justify-center shadow-lg">
+          <div className="h-16 w-16 rounded-2xl bg-surface-container-low border border-outline-variant flex items-center justify-center shadow-sm">
             {loading ? (
-              <RefreshCw className="h-8 w-8 text-brand-400 animate-spin" />
+              <RefreshCw className="h-8 w-8 text-primary animate-spin" />
             ) : selectedFile ? (
-              <CheckCircle2 className="h-8 w-8 text-brand-400" />
+              <CheckCircle2 className="h-8 w-8 text-success" />
             ) : (
-              <UploadCloud className="h-8 w-8 text-brand-400" />
+              <UploadCloud className="h-8 w-8 text-primary" />
             )}
           </div>
 
-          <div className="space-y-1.5 max-w-md">
-            <h3 className="text-lg font-semibold text-white">
+          <div className="space-y-1.5 max-w-lg">
+            <h3 className="text-lg font-bold text-on-surface font-display">
               {loading
                 ? "Menjalankan Model AI & Hybrid Decision Layer..."
                 : selectedFile
                 ? `File Terpilih: ${selectedFile.name}`
-                : "Unggah Data Riwayat Penjualan (.CSV)"}
+                : "Unggah Riwayat Transaksi Penjualan (.CSV)"}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-400">
-              Drag & Drop file CSV Anda di sini, atau klik tombol di bawah untuk memilih file dari komputer.
+            <p className="text-xs sm:text-sm text-on-surface-variant font-mono">
+              Drag & drop file CSV transaksi UMKM Anda di sini, atau pilih file dari perangkat lokal.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2 font-mono">
             <button
               type="button"
               disabled={loading}
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-brand-500 hover:bg-brand-400 text-slate-950 transition-all shadow-lg hover:shadow-glow-emerald disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-royal-blue hover:bg-primary text-white transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <FileSpreadsheet className="h-4 w-4" />
               <span>Pilih File CSV</span>
@@ -128,36 +128,36 @@ export default function UploadZone({ onAnalyzeFile, loading, error }: UploadZone
               type="button"
               disabled={loading}
               onClick={handleUseSampleData}
-              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-surface-50 hover:bg-surface-100 text-slate-200 border border-slate-700 hover:border-brand-500/40 transition-all shadow-sm cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant hover:border-primary/40 transition-all shadow-sm cursor-pointer disabled:opacity-50"
             >
-              <Sparkles className="h-4 w-4 text-accent-amber" />
-              <span>⚡ Gunakan Mock Retail UMKM Indonesia</span>
+              <Zap className="h-4 w-4 text-warning" />
+              <span>Muat Data Sampel Ritel Indonesia</span>
             </button>
 
             <button
               type="button"
               onClick={handleDownloadTemplate}
-              className="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 bg-surface-300/40 hover:bg-surface-300 border border-slate-800 transition-colors cursor-pointer"
+              className="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-medium text-on-surface-variant hover:text-on-surface bg-surface-container-low hover:bg-surface-container border border-outline-variant transition-colors cursor-pointer"
             >
               <Download className="h-3.5 w-3.5" />
-              <span>Template CSV</span>
+              <span>Format Template</span>
             </button>
           </div>
 
-          <div className="pt-2">
-            <p className="text-[11px] text-slate-500">
-              Format Kolom: <code className="text-slate-400">Date</code>, <code className="text-slate-400">ProductID</code>, <code className="text-slate-400">ProductName</code>, <code className="text-slate-400">Qty</code>, <code className="text-slate-400">Price</code>, <code className="text-slate-400">Cost</code>, <code className="text-slate-400">CurrentStock</code>
+          <div className="pt-2 font-mono">
+            <p className="text-[11px] text-on-surface-variant/80">
+              Format Kolom: <code className="text-primary font-semibold">Date</code>, <code className="text-primary font-semibold">ProductID</code>, <code className="text-primary font-semibold">ProductName</code>, <code className="text-primary font-semibold">Qty</code>, <code className="text-primary font-semibold">Price</code>, <code className="text-primary font-semibold">Cost</code>, <code className="text-primary font-semibold">CurrentStock</code>
             </p>
           </div>
         </div>
       </div>
 
       {error && (
-        <div className="mt-4 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-start space-x-3 text-rose-300 text-sm">
-          <AlertCircle className="h-5 w-5 shrink-0 text-rose-400 mt-0.5" />
+        <div className="mt-4 p-4 rounded-xl bg-error/10 border border-error/30 flex items-start space-x-3 text-error text-sm font-mono">
+          <AlertCircle className="h-5 w-5 shrink-0 text-error mt-0.5" />
           <div>
-            <p className="font-semibold text-rose-200">Gagal Memproses Data</p>
-            <p className="text-xs text-rose-300/90">{error}</p>
+            <p className="font-bold text-error">Gagal Memproses Data</p>
+            <p className="text-xs text-on-surface-variant">{error}</p>
           </div>
         </div>
       )}
