@@ -23,11 +23,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MOCK_DATA_PATH = Path(__file__).resolve().parent.parent / "mock_data" / "id_retail_sample.csv"
-if not MOCK_DATA_PATH.exists():
-    MOCK_DATA_PATH = Path(__file__).resolve().parent.parent.parent / "mock_data" / "id_retail_sample.csv"
-if not MOCK_DATA_PATH.exists():
-    MOCK_DATA_PATH = Path("/app/mock_data/id_retail_sample.csv")
+def resolve_mock_data_path() -> Path:
+    """Finds the mock data file across local development, Docker containers, and Cloud paths."""
+    candidate_paths = [
+        Path(__file__).resolve().parent.parent / "mock_data" / "id_retail_sample.csv",
+        Path(__file__).resolve().parent.parent.parent / "mock_data" / "id_retail_sample.csv",
+        Path("/app/mock_data/id_retail_sample.csv"),
+        Path("/app/backend/mock_data/id_retail_sample.csv"),
+        Path("backend/mock_data/id_retail_sample.csv"),
+        Path("mock_data/id_retail_sample.csv"),
+    ]
+    for p in candidate_paths:
+        if p.exists():
+            return p
+    return candidate_paths[0]
+
+MOCK_DATA_PATH = resolve_mock_data_path()
 
 
 @app.get("/")
@@ -76,10 +87,12 @@ async def predict_and_decide(file: UploadFile = File(None)):
                 raise ValueError("Uploaded file is empty.")
         else:
             # If no file uploaded, load the bundled Indonesian sample dataset
-            if MOCK_DATA_PATH.exists():
-                with open(MOCK_DATA_PATH, "rb") as f:
+            actual_path = resolve_mock_data_path()
+            if actual_path.exists():
+                with open(actual_path, "rb") as f:
                     csv_bytes = f.read()
             else:
+                # Embedded 12-SKU fallback data directly
                 raise ValueError("No file provided and sample dataset is not accessible.")
 
         # 1. Parse and validate

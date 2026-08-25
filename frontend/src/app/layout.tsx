@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sakapinta | AI Decision Support Engine for Indonesian Retail",
+  title: "Sakapinta | Tiang Penyangga Keputusan Stok UMKM Indonesia",
   description: "Tiang Penyangga Keputusan Stok UMKM Indonesia - Prescriptive AI-powered demand forecasting and dynamic safety stock optimization for COMPFEST 18 AI Innovation Challenge.",
-  keywords: ["AI Decision Support", "Demand Forecasting", "SME Logistics", "COMPFEST 18", "Smart Commerce", "Indonesian Retail", "Supply Chain AI"],
+  keywords: ["Sakapinta", "Demand Forecasting", "SME Logistics", "COMPFEST 18", "Smart Commerce", "Indonesian Retail", "Supply Chain AI"],
   authors: [{ name: "Sakapinta AI Team" }],
   icons: {
     icon: "/favicon.ico",

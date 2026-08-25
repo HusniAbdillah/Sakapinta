@@ -191,10 +191,11 @@ Sakapinta dirancang dengan mematuhi prinsip etika sistem cerdas yang bertanggung
 - **SaaS B2B Subscription**: Fitur integrasi API sistem Kasir (POS) dan rekomendasi konsolidasi pengadaan barang bagi distributor ritel menengah.
 
 ### 7.2 Estimasi ROI (Return on Investment) bagi UMKM
-Berdasarkan pengujian pada data sampel 7 SKU:
-- **Total Modal Restock yang Direkomendasikan**: Rp 114.022.000,-
-- **Potensi Omset Terlindungi dari Lost Sales**: Rp 132.040.000,-
-- **Estimasi Penyelamatan Margin Keuntungan (Margin 15%)**: Rp 19.806.000,- per siklus 14 hari.
+Berdasarkan pengujian empiris pada portofolio 12 SKU ritel Indonesia:
+- **Total Modal Restock yang Direkomendasikan**: Rp 118.672.500,-
+- **Potensi Omset Terlindungi dari Lost Sales**: Rp 126.150.500,-
+- **Modal Berlebih yang Berhasil Dicegah (Overstock Avoidance)**: Rp 14.850.000,-
+- **Estimasi Penyelamatan Margin Keuntungan (Margin ~15%)**: Rp 18.922.500,- per siklus 14 hari.
 
 ---
 
