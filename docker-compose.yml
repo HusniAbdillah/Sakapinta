@@ -1,5 +1,6 @@
 services:
   backend:
+    container_name: sakapinta_backend
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -14,6 +15,7 @@ services:
     restart: unless-stopped
 
   frontend:
+    container_name: sakapinta_frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -26,6 +28,8 @@ services:
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
       - NODE_ENV=development
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
     depends_on:
       - backend
     restart: unless-stopped
