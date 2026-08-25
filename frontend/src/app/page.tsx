@@ -160,16 +160,16 @@ export default function DashboardPage() {
         <section className="text-center space-y-3 max-w-3xl mx-auto pt-2 pb-2">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold">
             <Sparkles className="h-3.5 w-3.5 text-electric-cyan" />
-            <span>AI Decision Support System for Smart Commerce</span>
+            <span>Smart Commerce & Logistics</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-on-surface font-display">
-            Optimasi Keputusan Stok & Restock UMKM Indonesia
+            Sakapinta
           </h1>
 
           <p className="text-xs sm:text-sm text-on-surface-variant font-mono leading-relaxed">
-            Bukan sekadar peramalan deret waktu biasa. Sakapinta mengonversi data transaksi menjadi{" "}
-            <span className="text-primary font-bold">tindakan preskriptif</span>: rekomendasi kuantitas restock,
+            Tiang Penyangga Keputusan Stok UMKM Indonesia. Mengonversi data transaksi menjadi{" "}
+            <strong className="text-primary font-bold">tindakan preskriptif</strong>: rekomendasi kuantitas restock,
             stok pengaman stokastik, dan simulasi potensi kerugian finansial.
           </p>
         </section>
@@ -183,9 +183,9 @@ export default function DashboardPage() {
           />
         </section>
 
-        {/* Decision Output Dashboard */}
+        {/* Dynamic AI Results Section */}
         {decisionData && (
-          <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <section className="space-y-8 animate-fade-in">
             {/* Action Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-outline-variant shadow-sm">
               <div className="flex items-center space-x-2">
@@ -223,11 +223,11 @@ export default function DashboardPage() {
             <div className="bg-surface-container-low border border-primary/20 rounded-2xl p-4 flex items-start space-x-3 text-xs text-on-surface-variant shadow-sm">
               <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <div className="font-bold text-on-surface flex items-center space-x-1.5 font-display">
+                <div className="font-bold text-on-surface flex items-center space-x-1.5 font-display text-sm">
                   <span>Tata Kelola & Etika AI Terpenuhi (Responsible AI Governance)</span>
                 </div>
-                <p className="leading-relaxed font-mono text-[11px]">
-                  Model AI diprediksi secara deterministik menggunakan Multi-Quantile LightGBM ($P_{10}, P_{50}, P_{90}$) dengan dekomposisi Croston untuk barang intermiten dan Empirical Bayes untuk cold-start. Perhitungan Stochastic Safety Stock mematuhi Service Level 95% ($Z=1.65$) tanpa halusinasi LLM generatif.
+                <p className="leading-relaxed font-sans text-xs text-on-surface/90">
+                  Model AI diprediksi secara deterministik menggunakan <strong className="font-bold text-on-surface">Multi-Quantile LightGBM</strong> (<em>P</em><sub>10</sub>, <em>P</em><sub>50</sub>, <em>P</em><sub>90</sub>) dengan dekomposisi <strong className="font-bold text-on-surface">Croston</strong> untuk barang intermiten dan <strong className="font-bold text-on-surface">Empirical Bayes</strong> untuk <em>cold-start</em>. Perhitungan <strong className="font-bold text-on-surface">Stochastic Safety Stock</strong> mematuhi <em>Service Level</em> 95% (<em>Z</em> = 1.65) tanpa risiko halusinasi LLM generatif.
                 </p>
               </div>
             </div>
