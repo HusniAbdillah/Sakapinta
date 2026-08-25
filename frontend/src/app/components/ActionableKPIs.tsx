@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Wallet, AlertTriangle, ShieldCheck, TrendingUp, HelpCircle } from "lucide-react";
+import { Wallet, AlertTriangle, ShieldCheck, TrendingUp } from "lucide-react";
 
 export interface DecisionSummary {
   total_capital_required_idr: number;
@@ -33,80 +33,87 @@ export default function ActionableKPIs({ summary }: ActionableKPIsProps) {
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* 1. Capital Required */}
-      <div className="glass-panel rounded-2xl p-5 border border-slate-700/60 glass-card-hover relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-          <Wallet className="h-16 w-16 text-brand-400" />
-        </div>
-        <div className="flex items-center space-x-2 text-slate-400 text-xs font-medium uppercase tracking-wider mb-2">
-          <div className="p-1.5 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/20">
-            <Wallet className="h-4 w-4" />
+      <div className="luminous-card luminous-card-hover rounded-2xl p-5 relative overflow-hidden group">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-2 text-on-surface-variant text-xs font-semibold uppercase tracking-wider font-display">
+            <div className="p-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
+              <Wallet className="h-4 w-4" />
+            </div>
+            <span>Modal Restock</span>
           </div>
-          <span>Total Modal Restock</span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary-fixed text-primary font-mono">
+            14 Hari
+          </span>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-1">
+        <div className="text-2xl sm:text-3xl font-bold text-on-surface font-mono tracking-tight mb-1">
           {formatIDR(summary.total_capital_required_idr)}
         </div>
-        <p className="text-xs text-slate-400 flex items-center space-x-1">
-          <span className="text-brand-400 font-semibold">14 Hari ke Depan</span>
-          <span>• Rekomendasi Alokasi Dana</span>
+        <p className="text-xs text-on-surface-variant font-mono">
+          Rekomendasi alokasi dana pengadaan barang
         </p>
       </div>
 
       {/* 2. Potential Lost Sales (What-If Risk) */}
-      <div className="glass-panel rounded-2xl p-5 border border-rose-500/30 glass-card-hover relative overflow-hidden group bg-gradient-to-br from-surface-200 to-rose-950/20">
-        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-          <AlertTriangle className="h-16 w-16 text-rose-400" />
-        </div>
-        <div className="flex items-center space-x-2 text-rose-300 text-xs font-medium uppercase tracking-wider mb-2">
-          <div className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/30">
-            <AlertTriangle className="h-4 w-4" />
+      <div className="luminous-card luminous-card-hover rounded-2xl p-5 border-error/20 relative overflow-hidden group bg-gradient-to-br from-white to-error-container/20">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-2 text-error text-xs font-semibold uppercase tracking-wider font-display">
+            <div className="p-1.5 rounded-lg bg-error/10 text-error border border-error/20">
+              <AlertTriangle className="h-4 w-4" />
+            </div>
+            <span>Potensi Omset Hilang</span>
           </div>
-          <span>Potensi Omset Hilang</span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-error/10 text-error font-mono">
+            Risiko
+          </span>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-rose-300 tracking-tight mb-1">
+        <div className="text-2xl sm:text-3xl font-bold text-error font-mono tracking-tight mb-1">
           {formatIDR(summary.potential_lost_sales_idr)}
         </div>
-        <p className="text-xs text-rose-400/90 flex items-center space-x-1">
-          <span>Risiko jika stok habis dan tidak restock</span>
+        <p className="text-xs text-on-surface-variant font-mono">
+          Estimasi kerugian jika stok habis dan tidak restock
         </p>
       </div>
 
       {/* 3. Critical SKU Count */}
-      <div className="glass-panel rounded-2xl p-5 border border-amber-500/30 glass-card-hover relative overflow-hidden group bg-gradient-to-br from-surface-200 to-amber-950/20">
-        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-          <TrendingUp className="h-16 w-16 text-amber-400" />
-        </div>
-        <div className="flex items-center space-x-2 text-amber-300 text-xs font-medium uppercase tracking-wider mb-2">
-          <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30">
-            <TrendingUp className="h-4 w-4" />
+      <div className="luminous-card luminous-card-hover rounded-2xl p-5 border-warning/20 relative overflow-hidden group bg-gradient-to-br from-white to-warning-light/30">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-2 text-warning-dark text-xs font-semibold uppercase tracking-wider font-display">
+            <div className="p-1.5 rounded-lg bg-warning/10 text-warning border border-warning/20">
+              <TrendingUp className="h-4 w-4" />
+            </div>
+            <span>SKU Kritis</span>
           </div>
-          <span>SKU Prioritas Kritis</span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-warning/10 text-warning-dark font-mono">
+            {criticalRatio}% Urgent
+          </span>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-amber-300 tracking-tight mb-1">
+        <div className="text-2xl sm:text-3xl font-bold text-on-surface font-mono tracking-tight mb-1">
           {summary.critical_items_count}{" "}
-          <span className="text-sm font-medium text-amber-400/80">/ {summary.total_skus_evaluated} SKU</span>
+          <span className="text-sm font-medium text-on-surface-variant font-mono">/ {summary.total_skus_evaluated} SKU</span>
         </div>
-        <p className="text-xs text-amber-400/90 flex items-center space-x-1">
-          <span>{criticalRatio}% SKU mendesak harus dipesan</span>
+        <p className="text-xs text-on-surface-variant font-mono">
+          Barang mendesak dipesan sebelum stockout
         </p>
       </div>
 
       {/* 4. Stochastic Safety Stock Buffer */}
-      <div className="glass-panel rounded-2xl p-5 border border-emerald-500/30 glass-card-hover relative overflow-hidden group bg-gradient-to-br from-surface-200 to-emerald-950/20">
-        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-          <ShieldCheck className="h-16 w-16 text-emerald-400" />
-        </div>
-        <div className="flex items-center space-x-2 text-emerald-300 text-xs font-medium uppercase tracking-wider mb-2">
-          <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-            <ShieldCheck className="h-4 w-4" />
+      <div className="luminous-card luminous-card-hover rounded-2xl p-5 border-success/20 relative overflow-hidden group bg-gradient-to-br from-white to-success-light/30">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-2 text-success-dark text-xs font-semibold uppercase tracking-wider font-display">
+            <div className="p-1.5 rounded-lg bg-success/10 text-success border border-success/20">
+              <ShieldCheck className="h-4 w-4" />
+            </div>
+            <span>Stochastic Buffer</span>
           </div>
-          <span>Stochastic Safety Buffer</span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-success/10 text-success-dark font-mono">
+            95% SL
+          </span>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-emerald-300 tracking-tight mb-1">
+        <div className="text-2xl sm:text-3xl font-bold text-success-dark font-mono tracking-tight mb-1">
           {summary.average_safety_stock_ratio}
         </div>
-        <p className="text-xs text-emerald-400/90 flex items-center space-x-1">
-          <span>Service Level Target: {summary.service_level_target || "95.0% (Z=1.65)"}</span>
+        <p className="text-xs text-on-surface-variant font-mono">
+          Target Service Level: {summary.service_level_target || "95.0% (Z=1.65)"}
         </p>
       </div>
     </section>
