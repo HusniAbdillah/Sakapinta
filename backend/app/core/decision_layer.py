@@ -47,39 +47,44 @@ def apply_hybrid_decision_logic(
 
         # 3. Financial Computations (IDR)
         estimated_cost_idr = round(recommended_reorder_qty * unit_cost)
-        potential_lost_sales_idr = round(forecast_14d * unit_price)
+        # Potential Lost Sales occurs only on the unfulfilled shortage portion
+        shortage_units = max(0, math.ceil(forecast_14d - current_stock))
+        potential_lost_sales_idr = round(shortage_units * unit_price)
 
         # 4. Stockout Risk Scoring Index (0 - 100)
-        days_of_stock = current_stock / daily_avg_demand
+        days_of_stock = current_stock / daily_avg_demand if daily_avg_demand > 0 else 99.0
 
         # Factor A: Stock Depletion Urgency (0-40 pts)
-        if days_of_stock <= 3:
+        if days_of_stock <= 3.0:
             stock_urgency_score = 40.0
-        elif days_of_stock <= 7:
+        elif days_of_stock <= 7.0:
             stock_urgency_score = 25.0
-        elif days_of_stock <= 14:
-            stock_urgency_score = 12.0
+        elif days_of_stock <= 14.0:
+            stock_urgency_score = 10.0
         else:
             stock_urgency_score = 0.0
 
         # Factor B: Forecast Volatility Index (0-30 pts)
         cv = (std_dev_d / daily_avg_demand) if daily_avg_demand > 0 else 0.5
-        volatility_score = min(30.0, cv * 25.0)
+        volatility_score = min(30.0, cv * 20.0)
 
         # Factor C: Holiday Surge Multiplier presence (0-30 pts)
         has_holiday_surge = any("Regular" not in dp.get("event_label", "") for dp in item.get("daily_predictions", []))
-        holiday_score = 30.0 if has_holiday_surge else 10.0
+        holiday_score = 20.0 if has_holiday_surge else 5.0
 
-        # Composite Numeric Risk Score
-        risk_score_numeric = round(min(100.0, stock_urgency_score + volatility_score + holiday_score), 1)
-
-        # Categorical Risk Classification
-        if risk_score_numeric >= 68.0:
-            risk_score_cat = "High"
-        elif risk_score_numeric >= 40.0:
-            risk_score_cat = "Medium"
-        else:
+        # Composite Numeric Risk Score & Categorical Classification
+        if days_of_stock >= 14.0:
+            # Overstocked / Safe inventory
+            risk_score_numeric = round(min(35.0, volatility_score + holiday_score * 0.5), 1)
             risk_score_cat = "Low"
+        else:
+            risk_score_numeric = round(min(100.0, stock_urgency_score + volatility_score + holiday_score), 1)
+            if risk_score_numeric >= 68.0:
+                risk_score_cat = "High"
+            elif risk_score_numeric >= 40.0:
+                risk_score_cat = "Medium"
+            else:
+                risk_score_cat = "Low"
 
         # Priority Sorting Weight = Risk * Volume * Unit Margin
         unit_margin = max(1000.0, unit_price - unit_cost)
