@@ -8,7 +8,7 @@ import PriorityTable, { DecisionResultItem } from "./components/PriorityTable";
 import ForecastChart from "./components/ForecastChart";
 import WhatIfSimulator from "./components/WhatIfSimulator";
 import confetti from "canvas-confetti";
-import { Sparkles, CheckCircle2, RotateCcw, Download, ShieldCheck, Info } from "lucide-react";
+import { Sparkles, CheckCircle2, RotateCcw, Download, ShieldCheck } from "lucide-react";
 
 interface DecisionApiResponse {
   status: string;
@@ -85,7 +85,7 @@ export default function DashboardPage() {
           particleCount: 50,
           spread: 60,
           origin: { y: 0.75 },
-          colors: ["#10b981", "#34d399", "#06b6d4", "#f59e0b"],
+          colors: ["#0058c3", "#00CED1", "#1E40AF", "#10B981"],
         });
       } catch {
         // Ignore in environments without canvas
@@ -116,7 +116,8 @@ export default function DashboardPage() {
       "Rekomendasi Restock Qty",
       "Tingkat Risiko Stockout",
       "Estimasi Modal Restock (IDR)",
-      "Potensi Omset Hilang (IDR)"
+      "Potensi Omset Hilang (IDR)",
+      "Profil AI"
     ];
 
     const rows = decisionData.results.map(item => [
@@ -129,7 +130,8 @@ export default function DashboardPage() {
       item.recommended_reorder_qty,
       item.risk_score,
       item.estimated_cost_idr,
-      item.potential_lost_sales_idr
+      item.potential_lost_sales_idr,
+      `"${item.demand_profile || 'Fast-Moving'}"`
     ]);
 
     const csvContent = [
@@ -150,25 +152,25 @@ export default function DashboardPage() {
   const selectedItem = decisionData?.results.find((item) => item.product_id === selectedProductId);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen font-mono">
       <Navbar apiHealthy={apiHealthy} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Hero Section */}
         <section className="text-center space-y-3 max-w-3xl mx-auto pt-2 pb-2">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold">
-            <Sparkles className="h-3.5 w-3.5" />
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold">
+            <Sparkles className="h-3.5 w-3.5 text-electric-cyan" />
             <span>AI Decision Support System for Smart Commerce</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-on-surface font-display">
             Optimasi Keputusan Stok & Restock UMKM Indonesia
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-400">
-            Bukan sekadar peramalan deret waktu biasa. Sakapinta mengonversi data penjualan menjadi{" "}
-            <span className="text-brand-400 font-semibold">tindakan terukur</span>: rekomendasi kuantitas restock,
-            skor risiko stockout, dan simulasi potensi kerugian finansial.
+          <p className="text-xs sm:text-sm text-on-surface-variant font-mono leading-relaxed">
+            Bukan sekadar peramalan deret waktu biasa. Sakapinta mengonversi data transaksi menjadi{" "}
+            <span className="text-primary font-bold">tindakan preskriptif</span>: rekomendasi kuantitas restock,
+            stok pengaman stokastik, dan simulasi potensi kerugian finansial.
           </p>
         </section>
 
@@ -185,22 +187,22 @@ export default function DashboardPage() {
         {decisionData && (
           <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Action Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-200/60 p-4 rounded-2xl border border-slate-800">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-outline-variant shadow-sm">
               <div className="flex items-center space-x-2">
-                <CheckCircle2 className="h-5 w-5 text-brand-400" />
-                <span className="text-sm font-semibold text-white">
+                <CheckCircle2 className="h-5 w-5 text-success" />
+                <span className="text-sm font-bold text-on-surface font-display">
                   Keputusan Stok 14 Hari Selesai Dihitung
                 </span>
-                <span className="text-xs text-slate-400 font-mono">
+                <span className="text-xs text-on-surface-variant font-mono">
                   ({decisionData.summary.total_skus_evaluated} SKU Dievaluasi)
                 </span>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 font-mono">
                 <button
                   type="button"
                   onClick={handleExportCSV}
-                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold shadow-lg shadow-brand-500/20 transition-all cursor-pointer"
+                  className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-royal-blue hover:bg-primary text-white text-xs font-semibold shadow-md hover:shadow-lg transition-all cursor-pointer"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>Unduh Laporan Restock (.CSV)</span>
@@ -209,7 +211,7 @@ export default function DashboardPage() {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-surface-100 hover:bg-surface-50 text-slate-300 text-xs font-medium border border-slate-700 transition-colors cursor-pointer"
+                  className="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-medium border border-outline-variant transition-colors cursor-pointer"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
                   <span>Reset</span>
@@ -218,14 +220,14 @@ export default function DashboardPage() {
             </div>
 
             {/* AI Governance & Responsible AI Banner */}
-            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 flex items-start space-x-3 text-xs text-slate-400">
-              <ShieldCheck className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="bg-surface-container-low border border-primary/20 rounded-2xl p-4 flex items-start space-x-3 text-xs text-on-surface-variant shadow-sm">
+              <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <div className="font-semibold text-slate-200 flex items-center space-x-1.5">
+                <div className="font-bold text-on-surface flex items-center space-x-1.5 font-display">
                   <span>Tata Kelola & Etika AI Terpenuhi (Responsible AI Governance)</span>
                 </div>
-                <p className="leading-relaxed">
-                  Model AI diprediksi secara deterministik menggunakan Multi-Quantile LightGBM Regression ($P_{10}, P_{50}, P_{90}$) berbasis penanggalan Indonesia tanpa menggunakan LLM generatif yang rawan halusinasi. Perhitungan Safety Stock mematuhi standar distribusi normal $Z=1.65$ (Service Level 95%).
+                <p className="leading-relaxed font-mono text-[11px]">
+                  Model AI diprediksi secara deterministik menggunakan Multi-Quantile LightGBM ($P_{10}, P_{50}, P_{90}$) dengan dekomposisi Croston untuk barang intermiten dan Empirical Bayes untuk cold-start. Perhitungan Stochastic Safety Stock mematuhi Service Level 95% ($Z=1.65$) tanpa halusinasi LLM generatif.
                 </p>
               </div>
             </div>
@@ -257,10 +259,10 @@ export default function DashboardPage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-slate-800/80 bg-surface-300/60 py-6 mt-12 text-center text-xs text-slate-500">
+      <footer className="w-full border-t border-outline-variant/60 bg-white/80 backdrop-blur-md py-6 mt-12 text-center text-xs text-on-surface-variant font-mono">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
-            <span className="font-semibold text-slate-400">Sakapinta</span> • COMPFEST 18 AI Innovation Challenge MVP
+            <span className="font-bold text-on-surface font-display">Sakapinta</span> • COMPFEST 18 AI Innovation Challenge
           </div>
           <div>
             Kategori: Smart Commerce & Smart Logistics (Backbone of the Economy)
