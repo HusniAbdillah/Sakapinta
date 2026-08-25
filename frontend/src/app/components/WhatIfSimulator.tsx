@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { DecisionResultItem } from "./PriorityTable";
 import { formatIDR } from "./ActionableKPIs";
-import { Sliders, CheckCircle, AlertTriangle, ArrowRight, Sparkles } from "lucide-react";
+import { Sliders, CheckCircle, AlertTriangle, Sparkles } from "lucide-react";
 
 interface WhatIfSimulatorProps {
   results: DecisionResultItem[];
@@ -36,31 +36,31 @@ export default function WhatIfSimulator({
   });
 
   return (
-    <div className="glass-panel rounded-2xl border border-brand-500/20 bg-gradient-to-b from-surface-200/90 to-surface-300/90 p-5 sm:p-6 space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+    <div className="luminous-card rounded-2xl p-5 sm:p-6 space-y-5 border-primary/20 bg-gradient-to-b from-white to-surface-low/60 shadow-card">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant/60 pb-3">
         <div className="flex items-center space-x-2">
-          <div className="p-1.5 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30">
+          <div className="p-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
             <Sliders className="h-4 w-4" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white flex items-center space-x-1.5">
+            <h3 className="text-base font-bold text-on-surface font-display flex items-center space-x-2">
               <span>Simulasi What-If: Batasan Anggaran Modal UMKM</span>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 font-semibold border border-brand-500/20">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold border border-primary/20 font-mono">
                 Interaktif
               </span>
             </h3>
-            <p className="text-xs text-slate-400">
-              Uji skenario ketersediaan modal terbatas dan lihat SKU mana yang dioptimalkan secara otomatis oleh algoritma.
+            <p className="text-xs text-on-surface-variant font-mono">
+              Uji skenario ketersediaan modal terbatas dan lihat alokasi prioritas produk yang dioptimalkan algoritma.
             </p>
           </div>
         </div>
       </div>
 
       {/* Slider Control */}
-      <div className="space-y-2 bg-surface-100/60 p-4 rounded-xl border border-slate-800">
+      <div className="space-y-2.5 bg-surface-container-low p-4 rounded-xl border border-outline-variant/80 font-mono">
         <div className="flex justify-between items-center text-xs">
-          <span className="text-slate-300 font-medium">Alokasi Modal Tersedia:</span>
-          <span className="text-sm font-bold text-brand-400">
+          <span className="text-on-surface-variant font-medium">Alokasi Modal Tersedia:</span>
+          <span className="text-sm font-bold text-primary">
             {formatIDR(availableBudget)} ({budgetPercent}%)
           </span>
         </div>
@@ -72,54 +72,54 @@ export default function WhatIfSimulator({
           step="5"
           value={budgetPercent}
           onChange={(e) => setBudgetPercent(Number(e.target.value))}
-          className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-500"
+          className="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-primary"
         />
 
-        <div className="flex justify-between text-[11px] text-slate-500">
-          <span>10% (Modal Sangat Terbatas)</span>
+        <div className="flex justify-between text-[11px] text-on-surface-variant/70">
+          <span>10% (Modal Minim)</span>
           <span>50%</span>
-          <span>100% (Rekomendasi Penuh AI)</span>
+          <span>100% (Rekomendasi Optimal AI)</span>
         </div>
       </div>
 
       {/* Simulation Results Comparison Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div className="bg-surface-200/80 p-3.5 rounded-xl border border-slate-800 space-y-1">
-          <div className="text-slate-400 flex items-center space-x-1">
-            <CheckCircle className="h-3.5 w-3.5 text-brand-400" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+        <div className="bg-white p-4 rounded-xl border border-outline-variant/80 space-y-1 shadow-sm">
+          <div className="text-on-surface-variant flex items-center space-x-1.5 font-display font-semibold">
+            <CheckCircle className="h-4 w-4 text-success" />
             <span>SKU Berhasil Dibiayai</span>
           </div>
-          <div className="text-xl font-bold text-white">
-            {fundedCount} <span className="text-xs text-slate-400 font-normal">/ {results.length} Produk</span>
+          <div className="text-xl font-bold text-on-surface">
+            {fundedCount} <span className="text-xs text-on-surface-variant font-normal">/ {results.length} Produk</span>
           </div>
-          <div className="text-[11px] text-brand-400">
-            Alokasi Prioritas Rank 1 hingga Rank {fundedCount || 0}
+          <div className="text-[11px] text-success-dark font-medium">
+            Prioritas Rank 1 hingga Rank {fundedCount || 0}
           </div>
         </div>
 
-        <div className="bg-surface-200/80 p-3.5 rounded-xl border border-slate-800 space-y-1">
-          <div className="text-slate-400 flex items-center space-x-1">
-            <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+        <div className="bg-white p-4 rounded-xl border border-primary/20 space-y-1 shadow-sm">
+          <div className="text-primary flex items-center space-x-1.5 font-display font-semibold">
+            <Sparkles className="h-4 w-4 text-primary" />
             <span>Omset Terlindungi</span>
           </div>
-          <div className="text-xl font-bold text-accent-cyan">
+          <div className="text-xl font-bold text-primary">
             {formatIDR(protectedRevenue)}
           </div>
-          <div className="text-[11px] text-slate-400">
-            Terhindar dari stockout
+          <div className="text-[11px] text-on-surface-variant">
+            Terhindar dari risiko stockout
           </div>
         </div>
 
-        <div className="bg-surface-200/80 p-3.5 rounded-xl border border-rose-500/20 space-y-1">
-          <div className="text-rose-300 flex items-center space-x-1">
-            <AlertTriangle className="h-3.5 w-3.5 text-rose-400" />
+        <div className="bg-white p-4 rounded-xl border border-error/20 space-y-1 shadow-sm bg-gradient-to-br from-white to-error-container/10">
+          <div className="text-error flex items-center space-x-1.5 font-display font-semibold">
+            <AlertTriangle className="h-4 w-4 text-error" />
             <span>Risiko Omset Terkorban</span>
           </div>
-          <div className="text-xl font-bold text-rose-400">
+          <div className="text-xl font-bold text-error">
             {formatIDR(exposedLossRevenue)}
           </div>
-          <div className="text-[11px] text-rose-300/80">
-            {results.length - fundedCount} SKU berpotensi kehabisan stok
+          <div className="text-[11px] text-on-surface-variant">
+            {results.length - fundedCount} SKU berpotensi kekurangan stok
           </div>
         </div>
       </div>
