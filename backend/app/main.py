@@ -23,9 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MOCK_DATA_PATH = Path(__file__).resolve().parent.parent.parent / "mock_data" / "id_retail_sample.csv"
+MOCK_DATA_PATH = Path(__file__).resolve().parent.parent / "mock_data" / "id_retail_sample.csv"
 if not MOCK_DATA_PATH.exists():
-    # Fallback to local container path /app/mock_data
+    MOCK_DATA_PATH = Path(__file__).resolve().parent.parent.parent / "mock_data" / "id_retail_sample.csv"
+if not MOCK_DATA_PATH.exists():
     MOCK_DATA_PATH = Path("/app/mock_data/id_retail_sample.csv")
 
 
