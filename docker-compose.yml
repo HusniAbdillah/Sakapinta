@@ -1,11 +1,8 @@
-version: '3.8'
-
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: sakapinta_backend
     ports:
       - "8000:8000"
     volumes:
@@ -20,7 +17,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: sakapinta_frontend
     ports:
       - "3000:3000"
     volumes:
