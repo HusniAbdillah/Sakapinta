@@ -65,9 +65,9 @@ To re-run the offline AI training pipeline, IQR outlier removal, feature enginee
 python ai_pipeline/train.py
 ```
 *Outputs:*
-- Metrics: RMSE ~13.54, MAPE ~22.13%
-- Visualizations: `docs/eda/outlier_detection_iqr.png`, `daily_sales_distribution.png`, `time_series_decomposition.png`
-- Model Binary: `backend/app/models/sakapinta_model.joblib`
+- Metrics (LightGBM Multi-Quantile): RMSE 14.0265, MAE 10.9895, MAPE 20.84%, R² 0.5556 (vs XGBoost Baseline RMSE 19.5120, MAPE 28.59%)
+- Visualizations: `docs/eda/outlier_detection_iqr.png`, `docs/eda/time_series_decomposition.png`, `docs/eda/model_benchmark_comparison.png`
+- Model Binary: `backend/app/models/sakapinta_model.joblib` (v3.0.0)
 
 ### 2. Kaggle GPU (T4x2) Execution
 Upload `ai_pipeline/train_kaggle.ipynb` to Kaggle to execute GPU benchmarking experiments comparing LightGBM, XGBoost, and N-BEATS architectures.
