@@ -31,7 +31,7 @@
 
 \onehalfspacing
 \setlength{\parindent}{1cm}
-\setlength{\parskip}{0.5em}
+\setlength{\parskip}{0.4em}
 
 % --- PENGATURAN HYPERREF & WARNA TAUTAN AKADEMIK ---
 \hypersetup{
@@ -55,32 +55,32 @@
 % --- DOKUMEN UTAMA ---
 \begin{document}
 
-% --- HALAMAN JUDUL (ANONIM - TANPA NAMA INSTITUSI/KAMPUS) ---
+% --- HALAMAN JUDUL (1 HALAMAN PAS - ANONIM TANPA NAMA INSTITUSI/KAMPUS) ---
 \begin{titlepage}
     \centering
-    \vspace*{1.5cm}
+    \vspace*{0.8cm}
     
-    {\LARGE \textbf{PROPOSAL INOVASI ARTIFICIAL INTELLIGENCE}\par}
-    \vspace{0.5cm}
+    {\Large \textbf{PROPOSAL TEKNIS INOVASI}\par}
+    \vspace{0.2cm}
     {\large \textbf{COMPFEST 18 AI INNOVATION CHALLENGE}\par}
-    \vspace{0.3cm}
+    \vspace{0.2cm}
     {\normalsize \textbf{Kategori: Smart Commerce \& Smart Logistics}\par}
     
-    \vspace{1.5cm}
+    \vspace{1.0cm}
     \rule{\linewidth}{1.5pt}\par
     \vspace{0.4cm}
-    {\huge \textbf{SAKAPINTA: SISTEM PENDUKUNG KEPUTUSAN PRESKRIPTIF BERBASIS MULTI-QUANTILE GRADIENT BOOSTING DAN STOCHASTIC BUFFER UNTUK OPTIMASI PERSEDIAAN RITEL UMKM INDONESIA}\par}
+    {\huge \textbf{SAKAPINTA: SISTEM PENDUKUNG KEPUTUSAN PRESKRIPTIF BERBASIS MULTI-QUANTILE GRADIENT BOOSTING DAN STOCHASTIC BUFFER UNTUK OPTIMASI PERSEDIAAN RITEL UMKM}\par}
     \vspace{0.4cm}
     \rule{\linewidth}{1.5pt}\par
-    \vspace{0.5cm}
+    \vspace{0.4cm}
     {\large \textit{Transformasi Manajemen Rantai Pasok Mikro dari Peramalan Pasif Menuju Preskripsi Pengadaan Otomatis Terkalibrasi}\par}
 
-    \vspace{2.5cm}
+    \vspace{1.8cm}
 
     \begin{minipage}{0.85\textwidth}
         \centering
         \textbf{Disusun Oleh:}\\[0.2cm]
-        \textbf{Nama Tim:} KKN (Kelompok Kecerdasan Neural)\\[0.4cm]
+        \textbf{Nama Tim:} KKN (Kelompok Kecerdasan Neural)\\[0.3cm]
         \begin{tabular}{ll}
             \textbf{Ketua Tim:} & Husni Abdillah \\
             \textbf{Anggota:} & Fatiyya Ilmi Zahra \\
@@ -211,12 +211,26 @@ Data penjualan historis $y_t$ kerap mengandung pencatatan keliru atau lonjakan t
     \end{cases}
 \end{align}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/outlier_detection_iqr.png}
+    \caption{Deteksi dan Eliminasi Anomali Data Penjualan Menggunakan IQR Filtering}
+    \label{fig:outlier_iqr}
+\end{figure}
+
 \subsubsection{Rekayasa Fitur Siklis (\textit{Fourier Harmonics})}
 Untuk menangkap kontinuitas musiman tahunan dan bulanan tanpa menciptakan diskontinuitas buatan, diterapkan transformasi basis ortogonal Fourier:
 \begin{align}
     \text{Fourier}_{\sin, \text{annual}} &= \sin\left(\frac{2\pi \cdot t_{\text{yday}}}{365.25}\right), \quad \text{Fourier}_{\cos, \text{annual}} = \cos\left(\frac{2\pi \cdot t_{\text{yday}}}{365.25}\right) \\
     \text{Fourier}_{\sin, \text{monthly}} &= \sin\left(\frac{2\pi \cdot t_{\text{day}}}{30.5}\right), \quad \text{Fourier}_{\cos, \text{monthly}} = \cos\left(\frac{2\pi \cdot t_{\text{day}}}{30.5}\right)
 \end{align}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{figures/time_series_decomposition.png}
+    \caption{Dekomposisi Deret Waktu Penjualan Ritel (Tren, Musiman, dan Komponen Residual)}
+    \label{fig:ts_decomposition}
+\end{figure}
 
 \subsubsection{Injeksi Indikator Musiman Nasional Indonesia}
 Fitur kontekstual lokal diintegrasikan untuk menangkap lonjakan spesifik perilaku konsumen Indonesia:
@@ -246,6 +260,13 @@ Sakapinta mengadopsi algoritma \textit{Light Gradient Boosting Machine} (LightGB
     \mathcal{L}_{\tau}(y, \hat{y}) = \max\left(\tau (y - \hat{y}), \; (\tau - 1)(y - \hat{y})\right), \quad \tau \in \{0.10, 0.50, 0.90\}
 \end{equation}
 di mana $\hat{y}_{P10}$ merepresentasikan skenario pesimis (batas bawah), $\hat{y}_{P50}$ merupakan proyeksi median terdistribusi, dan $\hat{y}_{P90}$ merepresentasikan batas atas lonjakan permintaan (\textit{upper demand surge}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{figures/quantile_forecast_uncertainty.png}
+    \caption{Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}
+    \label{fig:quantile_uncertainty}
+\end{figure}
 
 \begin{table}[H]
     \centering
@@ -290,6 +311,13 @@ Kinerja peramalan dievaluasi menggunakan empat metrik standar internasional \cit
         \bottomrule
     \end{tabular}
 \end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{figures/model_benchmark_comparison.png}
+    \caption{Komparasi Metrik Evaluasi Model (LightGBM Multi-Quantile vs. XGBoost Baseline)}
+    \label{fig:model_benchmark}
+\end{figure}
 
 \subsection{Prescriptive Decision Layer dan Optimasi Operasional}
 
@@ -367,6 +395,13 @@ Arsitektur Sakapinta dibangun dengan pemisahan tanggung jawab yang modular (\tex
 \subsection{Analisis Kesiapan Fungsionalitas Inti MVP}
 Sistem Sakapinta telah diuji secara menyeluruh menggunakan portofolio 12 SKU ritel Indonesia yang merefleksikan variasi karakteristik komoditas rantai pasok nyata.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figures/dashboard_overview.png}
+    \caption{Antarmuka Utama Dashboard Sakapinta (Upload CSV, Kartu KPI Eksekutif, dan Simulator Finansial What-If)}
+    \label{fig:dashboard_overview}
+\end{figure}
+
 \begin{table}[H]
     \centering
     \caption{Hasil Evaluasi Matriks Keputusan Preskriptif 12 SKU Ritel Sakapinta}
@@ -398,6 +433,13 @@ Sistem Sakapinta telah diuji secara menyeluruh menggunakan portofolio 12 SKU rit
 \end{table}
 
 Hasil pada Tabel \ref{tab:mvp_evaluation} membuktikan bahwa Sakapinta tidak hanya menghasilkan rekomendasi yang akurat pada barang pokok cepat laku, melainkan juga secara cerdas mencegah pemborosan belanja modal pada barang yang persediaannya masih mencukupi (seperti Tepung Terigu dan Sabun Cuci Piring), seraya mengamankan ketersediaan barang lambat laku berharga tinggi (Tabung Gas Elpiji).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figures/dashboard_matrix_xai.png}
+    \caption{Matriks Prioritas Keputusan Stok, Laci Transparansi Matematis XAI, dan Proyeksi Deret Waktu Recharts}
+    \label{fig:dashboard_matrix_xai}
+\end{figure}
 
 \subsection{Area Peningkatan Signifikan untuk Babak Final (Roadmap Pengembangan)}
 Secara objektif, tim mengidentifikasi beberapa batasan sistem saat ini dan merancang peta jalan pengembangan lanjutan untuk Babak Final:
