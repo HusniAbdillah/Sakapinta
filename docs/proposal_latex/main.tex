@@ -19,6 +19,7 @@
 \usepackage{natbib}
 \usepackage{float}
 \usepackage{setspace}
+\usepackage{tcolorbox}
 
 % --- PENGATURAN MARGIN DAN GEOMETRI ---
 \geometry{
@@ -55,44 +56,54 @@
 % --- DOKUMEN UTAMA ---
 \begin{document}
 
-% --- HALAMAN JUDUL (1 HALAMAN PAS - ANONIM TANPA NAMA INSTITUSI/KAMPUS) ---
+% --- HALAMAN JUDUL (1 HALAMAN FORMAL - ANONIM TANPA NAMA INSTITUSI/KAMPUS) ---
 \begin{titlepage}
     \centering
-    \vspace*{0.8cm}
+    \vspace*{0.2cm}
     
-    {\Large \textbf{PROPOSAL TEKNIS INOVASI}\par}
-    \vspace{0.2cm}
-    {\large \textbf{COMPFEST 18 AI INNOVATION CHALLENGE}\par}
-    \vspace{0.2cm}
-    {\normalsize \textbf{Kategori: Smart Commerce \& Smart Logistics}\par}
+    {\small \textbf{AI INNOVATION CHALLENGE 2026 — COMPFEST 18}\par}
+    \vspace{0.1cm}
+    {\footnotesize \textbf{Tema: AI for the Backbone of the Economy (Pilar: Smart Commerce \& Smart Logistics)}\par}
     
-    \vspace{1.0cm}
-    \rule{\linewidth}{1.5pt}\par
-    \vspace{0.4cm}
-    {\huge \textbf{SAKAPINTA: SISTEM PENDUKUNG KEPUTUSAN PRESKRIPTIF BERBASIS MULTI-QUANTILE GRADIENT BOOSTING DAN STOCHASTIC BUFFER UNTUK OPTIMASI PERSEDIAAN RITEL UMKM}\par}
-    \vspace{0.4cm}
-    \rule{\linewidth}{1.5pt}\par
-    \vspace{0.4cm}
-    {\large \textit{Transformasi Manajemen Rantai Pasok Mikro dari Peramalan Pasif Menuju Preskripsi Pengadaan Otomatis Terkalibrasi}\par}
+    \vspace{0.6cm}
+    \includegraphics[width=2.4cm]{figures/Sakapinta.png}\par
+    \vspace{0.3cm}
+    
+    {\Huge \textbf{SAKAPINTA}\par}
+    \vspace{0.2cm}
+    {\large \textbf{Sistem Preskriptif Pendukung Keputusan Stok Ritel UMKM Berbasis Multi-Quantile Gradient Boosting dan Stochastic Buffer}\par}
+    \vspace{0.25cm}
+    {\normalsize \textit{``Tiang Penyangga Keputusan Stok UMKM Indonesia''}\par}
 
-    \vspace{1.8cm}
+    \vspace{0.6cm}
+    \rule{\linewidth}{1.2pt}\par
+    \vspace{0.4cm}
 
-    \begin{minipage}{0.85\textwidth}
-        \centering
-        \textbf{Disusun Oleh:}\\[0.2cm]
-        \textbf{Nama Tim:} KKN (Kelompok Kecerdasan Neural)\\[0.3cm]
+    \begin{minipage}{0.92\textwidth}
+        \footnotesize
+        \textbf{Identitas Pengusul Inovasi:}\\[0.15cm]
         \begin{tabular}{ll}
+            \textbf{Nama Tim:} & KKN: Kelompok Kecerdasan Neural \\
             \textbf{Ketua Tim:} & Husni Abdillah \\
-            \textbf{Anggota:} & Fatiyya Ilmi Zahra \\
-            & Gilang Agung Prakoso \\
-            & Naufal Ghifari Afdhala \\
-            & Arief Abdul Rahman \\
+            \textbf{Anggota Tim:} & Fatiyya Ilmi Zahra, Gilang Agung Prakoso, \\
+            & Naufal Ghifari Afdhala, Arief Abdul Rahman \\
         \end{tabular}
     \end{minipage}
 
+    \vspace{0.5cm}
+
+    \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title={\footnotesize \textbf{Tautan Akses Luaran \& Artefak Digital (Deliverables)}},arc=2mm]
+        \footnotesize
+        \begin{itemize}[leftmargin=0.4cm,itemsep=0pt,topsep=0pt]
+            \item \textbf{Repositori GitHub:} \href{https://github.com/HusniAbdillah/Sakapinta}{\texttt{https://github.com/HusniAbdillah/Sakapinta}}
+            \item \textbf{Live Web Deployment:} \href{http://34.44.169.181}{\texttt{http://34.44.169.181}} (Akses Port 80 GCP VM)
+            \item \textbf{Video Proof of Work (PoW):} \href{https://youtu.be/id_video_pow}{\texttt{https://youtu.be/id\_video\_pow}} (\textit{Unlisted})
+            \item \textbf{Video Promosi Karya:} \href{https://youtu.be/id_video_promosi}{\texttt{https://youtu.be/id\_video\_promosi}} (\textit{Public})
+        \end{itemize}
+    \end{tcolorbox}
+
     \vfill
-    {\normalsize \textbf{INDONESIA}\par}
-    {\normalsize \textbf{2026}\par}
+    {\footnotesize \textbf{INDONESIA --- 2026}\par}
 \end{titlepage}
 
 \newpage
@@ -384,7 +395,7 @@ Arsitektur Sakapinta dibangun dengan pemisahan tanggung jawab yang modular (\tex
     \item \textbf{Frontend Presentation Layer:} Dibangun menggunakan \textbf{Next.js 14 App Router}, TailwindCSS, dan Recharts dengan sistem desain \textit{Luminous Precision} (latar belakang Slate-White \texttt{\#F8FAFC}, tipografi ganda \textit{Space Grotesk} dan \textit{JetBrains Mono}, serta ikonografi murni Lucide React).
     \item \textbf{Backend REST API Layer:} Dibangun menggunakan \textbf{FastAPI (Python 3.11)} dengan prinsip pemrosesan sinkron cepat.
     \item \textbf{Serving Inferensi Statis Sub-10ms:} Model serialisasi \texttt{sakapinta\_model.joblib} (v3.0.0) dimuat ke memori (\textit{in-memory}) saat startup container, menjamin latensi inferensi $<10\text{ ms}$ pada CPU standar tanpa kebutuhan GPU.
-    \item \textbf{Kontainerisasi Tunggal Docker Compose:} Seluruh ekosistem (Frontend, Backend, dan Nginx Reverse Proxy di Port 80) dapat dijalankan melalui satu perintah: \texttt{docker compose up -d --build}.
+    \item \textbf{Kontainerisasi Tunggal Docker Compose:} Seluruh ekosistem (Frontend, Backend, dan Nginx Reverse Proxy di Port 80) dapat dijalankan melalui satu perintah pada repositori publik (\url{https://github.com/HusniAbdillah/Sakapinta}): \texttt{docker compose up -d --build}, serta dapat diakses secara langsung melalui deployment cloud di \url{http://34.44.169.181}.
 \end{itemize}
 
 % =========================================================================
