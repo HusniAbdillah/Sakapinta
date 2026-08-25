@@ -20,19 +20,21 @@
 \usepackage{float}
 \usepackage{setspace}
 \usepackage{tcolorbox}
+\usepackage{tikz}
 
 % --- PENGATURAN MARGIN DAN GEOMETRI ---
 \geometry{
-    top=3cm,
-    bottom=3cm,
-    left=3cm,
-    right=3cm,
-    headheight=16pt
+    top=2.8cm,
+    bottom=2.8cm,
+    left=2.8cm,
+    right=2.8cm,
+    headheight=15pt
 }
 
-\onehalfspacing
-\setlength{\parindent}{1cm}
-\setlength{\parskip}{0.35em}
+% --- SPASI PADAT AKADEMIS ---
+\setstretch{1.15}
+\setlength{\parindent}{0.8cm}
+\setlength{\parskip}{0.25em}
 
 % --- PENGATURAN HYPERREF & WARNA TAUTAN AKADEMIK ---
 \hypersetup{
@@ -44,12 +46,18 @@
     pdftitle={Proposal Sakapinta - COMPFEST 18 AI Innovation Challenge}
 }
 
-% --- PENGATURAN HEADER & FOOTER DENGAN LOGO SAKAPINTA ---
+% --- PENGATURAN HEADER & FOOTER DENGAN WATERMARK LOGO DI TENGAH HALAMAN ---
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\raisebox{-0.08cm}{\includegraphics[height=0.45cm]{figures/Sakapinta.png}}\hspace{0.2cm}\textit{\footnotesize Sakapinta --- Tiang Penyangga Keputusan Stok UMKM}}
+\lhead{\textit{\footnotesize SAKAPINTA --- Tiang Penyangga Keputusan Stok UMKM}}
 \rhead{\textit{\footnotesize COMPFEST 18 AIC}}
-\cfoot{\thepage}
+\cfoot{\thepage%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[opacity=0.035, inner sep=0pt] at (current page.center) {
+      \includegraphics[width=9.5cm]{figures/Sakapinta.png}
+    };
+  \end{tikzpicture}%
+}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -116,7 +124,7 @@ Sektor Usaha Mikro, Kecil, dan Menengah (UMKM) merupakan pilar utama perekonomia
 
 Penelitian dan pengembangan ini menghadirkan \textbf{Sakapinta}, sebuah sistem pendukung keputusan preskriptif (\textit{Hybrid Prescriptive Decision Support System}) berbasis kecerdasan artifisial (\textit{Artificial Intelligence}) yang dirancang khusus untuk memecahkan persoalan persediaan UMKM secara deterministik, transparan, dan berlatensi rendah ($<10\text{ ms}$). Alih-alih hanya menyajikan grafik visual historis yang pasif, Sakapinta mengintegrasikan model peramalan \textit{Multi-Quantile LightGBM} ($P_{10}, P_{50}, P_{90}$) dengan dekomposisi \textit{Croston's Hurdle Model} untuk komoditas lambat laku (\textit{intermittent}) dan penyusutan \textit{Hierarchical Empirical Bayes Prior} untuk komoditas baru (\textit{cold-start}). Keluaran inferensi tersebut kemudian diolah secara langsung oleh lapisan preskriptif melalui formula \textit{Full Stochastic Joint Safety Stock} ($SS = \lceil Z \sqrt{L \sigma_D^2 + \bar{D}^2 \sigma_L^2} \rceil$) dengan target \textit{Service Level} 95\%, indeks skor risiko \textit{stockout} multi-faktor, kuantitas pemesanan ulang optimal ($Q_{\text{reorder}}$), serta simulasi batas modal (\textit{What-If financial exposure}). Evaluasi empiris membuktikan bahwa Sakapinta mampu mengeliminasi belanja modal berlebih pada barang berstok melimpah (\textit{reorder} = 0 unit) dan melindungi omset penjualan secara akurat tanpa risiko halusinasi model generatif.
 
-\vspace{0.5cm}
+\vspace{0.4cm}
 \noindent \textbf{Kata Kunci:} \textit{Supply Chain AI, Multi-Quantile LightGBM, Prescriptive Inventory Control, Stochastic Joint Safety Stock, Croston Intermittent Decomposition, UMKM Indonesia.}
 
 \newpage
@@ -208,7 +216,7 @@ Data transaksi penjualan historis $y_t$ kerap mengandung anomali akibat salah ke
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/outlier_detection_iqr.png}
+    \includegraphics[width=0.72\textwidth]{figures/outlier_detection_iqr.png}
     \caption{Deteksi dan Eliminasi Anomali Data Penjualan Menggunakan IQR Filtering}
     \label{fig:outlier_iqr}
 \end{figure}
@@ -222,7 +230,7 @@ Untuk menangkap kontinuitas siklus musiman tahunan dan bulanan tanpa menciptakan
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.78\textwidth]{figures/time_series_decomposition.png}
+    \includegraphics[width=0.75\textwidth]{figures/time_series_decomposition.png}
     \caption{Dekomposisi Deret Waktu Penjualan Ritel (Tren, Musiman, dan Komponen Residual)}
     \label{fig:ts_decomposition}
 \end{figure}
@@ -253,7 +261,7 @@ di mana $\hat{y}_{P10}$ merepresentasikan skenario pesimis (batas bawah), $\hat{
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.78\textwidth]{figures/quantile_forecast_uncertainty.png}
+    \includegraphics[width=0.75\textwidth]{figures/quantile_forecast_uncertainty.png}
     \caption{Proyeksi Kuantil Multi-Band ($P_{10}, P_{50}, P_{90}$) Menangkap Ketidakpastian Permintaan}
     \label{fig:quantile_uncertainty}
 \end{figure}
@@ -306,7 +314,7 @@ Kinerja peramalan dievaluasi menggunakan empat metrik standar internasional \cit
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.72\textwidth]{figures/model_benchmark_comparison.png}
+    \includegraphics[width=0.68\textwidth]{figures/model_benchmark_comparison.png}
     \caption{Komparasi Metrik Evaluasi Model (LightGBM Multi-Quantile vs. XGBoost Baseline)}
     \label{fig:model_benchmark}
 \end{figure}
@@ -376,7 +384,7 @@ Sistem Sakapinta telah diuji secara menyeluruh menggunakan portofolio 12 SKU rit
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.82\textwidth]{figures/dashboard_overview.png}
+    \includegraphics[width=0.78\textwidth]{figures/dashboard_overview.png}
     \caption{Antarmuka Utama Dashboard Sakapinta (Upload CSV, Kartu KPI Eksekutif, dan Simulator Finansial What-If)}
     \label{fig:dashboard_overview}
 \end{figure}
@@ -415,7 +423,7 @@ Hasil pada Tabel \ref{tab:mvp_evaluation} membuktikan bahwa Sakapinta tidak hany
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.82\textwidth]{figures/dashboard_matrix_xai.png}
+    \includegraphics[width=0.78\textwidth]{figures/dashboard_matrix_xai.png}
     \caption{Matriks Prioritas Keputusan Stok, Laci Transparansi Matematis XAI, dan Proyeksi Deret Waktu Recharts}
     \label{fig:dashboard_matrix_xai}
 \end{figure}

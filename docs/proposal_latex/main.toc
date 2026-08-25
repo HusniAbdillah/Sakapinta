@@ -23,11 +23,11 @@
 \contentsline {subsubsection}{\numberline {3.3.3}Hierarchical Empirical Bayes Cold-Start Engine}{10}{subsubsection.3.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.4}Kuantitas Pemesanan Ulang Preskriptif ($Q_{\text {reorder}}$)}{10}{subsubsection.3.3.4}%
 \contentsline {subsubsection}{\numberline {3.3.5}Indeks Skor Risiko Stockout Multi-Faktor ($0 - 100$)}{10}{subsubsection.3.3.5}%
-\contentsline {subsubsection}{\numberline {3.3.6}Simulasi Anggaran Finansial (\textit {What-If Simulation})}{11}{subsubsection.3.3.6}%
+\contentsline {subsubsection}{\numberline {3.3.6}Simulasi Anggaran Finansial (\textit {What-If Simulation})}{10}{subsubsection.3.3.6}%
 \contentsline {subsection}{\numberline {3.4}Arsitektur Perangkat Lunak dan Kontainerisasi}{11}{subsection.3.4}%
-\contentsline {section}{\numberline {4}Evaluasi Kesiapan MVP (Minimum Viable Product)}{12}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Analisis Kesiapan Fungsionalitas Inti MVP}{12}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Area Peningkatan Signifikan untuk Babak Final (Roadmap Pengembangan)}{15}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Tata Kelola, Transparansi Algoritma, dan Etika AI (\textit {AI Governance})}{16}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Kesimpulan}{17}{section.5}%
-\contentsline {section}{Daftar Pustaka}{18}{section.5}%
+\contentsline {section}{\numberline {4}Evaluasi Kesiapan MVP (Minimum Viable Product)}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Analisis Kesiapan Fungsionalitas Inti MVP}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Area Peningkatan Signifikan untuk Babak Final (Roadmap Pengembangan)}{14}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Tata Kelola, Transparansi Algoritma, dan Etika AI (\textit {AI Governance})}{15}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Kesimpulan}{15}{section.5}%
+\contentsline {section}{Daftar Pustaka}{17}{section.5}%
