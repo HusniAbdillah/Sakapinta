@@ -100,17 +100,36 @@ export default function UploadZone({ onAnalyzeFile, loading, error }: UploadZone
             )}
           </div>
 
-          <div className="space-y-1.5 max-w-lg">
+          <div className="space-y-2 max-w-lg">
             <h3 className="text-lg font-bold text-on-surface font-display">
               {loading
                 ? "Menjalankan Model AI & Hybrid Decision Layer..."
                 : selectedFile
-                ? `File Terpilih: ${selectedFile.name}`
+                ? "File Berhasil Dipilih & Siap Dianalisis"
                 : "Unggah Riwayat Transaksi Penjualan (.CSV)"}
             </h3>
-            <p className="text-xs sm:text-sm text-on-surface-variant font-mono">
-              Drag & drop file CSV transaksi UMKM Anda di sini, atau pilih file dari perangkat lokal.
-            </p>
+
+            {selectedFile ? (
+              <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-success/10 border border-success/30 text-success text-xs font-mono">
+                <CheckCircle2 className="h-4 w-4" />
+                <span className="font-semibold">{selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)</span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedFile(null);
+                    if (fileInputRef.current) fileInputRef.current.value = "";
+                  }}
+                  className="ml-2 text-on-surface-variant hover:text-error text-xs font-bold underline cursor-pointer"
+                >
+                  Ganti
+                </button>
+              </div>
+            ) : (
+              <p className="text-xs sm:text-sm text-on-surface-variant font-mono">
+                Drag & drop file CSV transaksi UMKM Anda di sini, atau pilih file dari perangkat lokal.
+              </p>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2 font-mono">
