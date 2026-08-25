@@ -75,13 +75,13 @@ def apply_hybrid_decision_logic(
         # Composite Numeric Risk Score & Categorical Classification
         if days_of_stock >= 14.0:
             # Overstocked / Safe inventory
-            risk_score_numeric = round(min(35.0, volatility_score + holiday_score * 0.5), 1)
+            risk_score_numeric = round(min(30.0, volatility_score + holiday_score * 0.4), 1)
             risk_score_cat = "Low"
         else:
             risk_score_numeric = round(min(100.0, stock_urgency_score + volatility_score + holiday_score), 1)
-            if risk_score_numeric >= 68.0:
+            if risk_score_numeric >= 60.0:
                 risk_score_cat = "High"
-            elif risk_score_numeric >= 40.0:
+            elif risk_score_numeric >= 35.0:
                 risk_score_cat = "Medium"
             else:
                 risk_score_cat = "Low"

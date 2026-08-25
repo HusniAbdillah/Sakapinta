@@ -6,7 +6,7 @@
 | **Tagline** | *Tiang Penyangga Keputusan Stok UMKM Indonesia* |
 | **Target Event** | **COMPFEST 18 AI Innovation Challenge** (Submission Deadline: Aug 25, 2026) |
 | **Category** | Smart Commerce & Smart Logistics *(AI for the Backbone of the Economy)* |
-| **Document Version** | **v2.0** (Final Hybrid Version - Vibecoding Ready) |
+| **Document Version** | **v2.0** (Production-Grade Architecture Specification) |
 
 ---
 

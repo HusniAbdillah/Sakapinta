@@ -12,7 +12,7 @@ COLUMN_MAPPINGS = {
     'qty': ['qty', 'quantity', 'sales', 'jumlah', 'terjual', 'units_sold', 'volume'],
     'price': ['price', 'unit_price', 'selling_price', 'harga', 'harga_jual', 'harga_satuan'],
     'cost': ['cost', 'unit_cost', 'purchase_price', 'cogs', 'hpp', 'harga_beli', 'harga_modal'],
-    'current_stock': ['current_stock', 'stock', 'stok', 'inventory', 'stok_saat_ini', 'on_hand_qty']
+    'current_stock': ['current_stock', 'currentstock', 'stock', 'stok', 'inventory', 'stok_saat_ini', 'on_hand_qty', 'current_inventory', 'ending_stock']
 }
 
 # Major Indonesian seasonal markers (fixed and dynamic approximate dates)
