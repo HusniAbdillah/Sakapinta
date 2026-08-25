@@ -34,9 +34,10 @@ Sistem Preskriptif Pendukung Keputusan Stok Ritel UMKM Berbasis
                                           1
 Ringkasan Eksekutif
 Sektor Usaha Mikro, Kecil, dan Menengah (UMKM) merupakan pilar utama perekonomian
-nasional yang menyumbang lebih dari 61% terhadap Produk Domestik Bruto (PDB) Indo-
-nesia. Kendati demikian, efisiensi operasional pedagang ritel tradisional dan grosir skala
-menengah kerap terhambat oleh inefisiensi pengelolaan rantai pasok dan persediaan. Feno-
+nasional yang menyerap sebagian besar angkatan kerja serta berkontribusi signifikan
+terhadap Produk Domestik Bruto (PDB) Indonesia. Kendati demikian, efisiensi operasional
+pedagang ritel tradisional dan grosir skala menengah kerap terhambat oleh inefisiensi
+pengelolaan rantai pasok dan persediaan. Feno-
 mena kehabisan stok (stockout) mengakibatkan potensi kehilangan omset penjualan rata-rata
 sebesar 8%–15%, sementara akumulasi stok berlebih (overstocking) mengikat likuiditas mo-
 dal kerja hingga 12%–20%. Permasalahan ini diperparah oleh dinamika pasar domestik yang
@@ -122,12 +123,11 @@ Daftar Pustaka                                                                  
 
 1.1   Urgensi Permasalahan Logistik dan Manajemen Persediaan UMKM
 Usaha Mikro, Kecil, dan Menengah (UMKM) merupakan tulang punggung perekonomian
-Indonesia (backbone of the economy). Berdasarkan data resmi Badan Pusat Statistik (2023),
-sektor UMKM menyerap sekitar 97% dari total angkatan kerja nasional serta berkontribusi
-lebih dari 61% terhadap pembentukan Produk Domestik Bruto (PDB). Di dalam struktur
-tersebut, sektor perdagangan ritel dan grosir barang kebutuhan pokok (sembako) memegang
-peranan krusial sebagai urat nadi distribusi konsumsi masyarakat sehari-hari (Bank Indonesia,
-2023).
+Indonesia (backbone of the economy). Sektor UMKM menyerap sebagian besar angkatan
+kerja nasional serta berkontribusi secara signifikan terhadap pembentukan Produk Domestik
+Bruto (PDB) (Badan Pusat Statistik, 2023). Di dalam struktur tersebut, sektor perdagangan
+ritel dan grosir barang kebutuhan pokok (sembako) memegang peranan krusial sebagai urat
+nadi distribusi konsumsi masyarakat sehari-hari (Bank Indonesia, 2023).
       Meskipun memegang peranan vital, operasional harian pedagang ritel UMKM di In-
 donesia masih dikelola secara konvensional berbasis intuisi manual (rule of thumb) (Fildes
 et al., 2022). Pedagang kerap mengalami kesulitan akut dalam menyeimbangkan volume
