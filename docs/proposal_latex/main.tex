@@ -40,12 +40,18 @@
 \setlength{\parindent}{0.8cm}
 \setlength{\parskip}{0.25em}
 
+% --- WARNA BRAND SAKAPINTA (TAILWIND PALETTE) ---
+\definecolor{sakapintaPrimary}{HTML}{0058C3}
+\definecolor{sakapintaCyan}{HTML}{00CED1}
+\definecolor{sakapintaDark}{HTML}{0F172A}
+\definecolor{sakapintaLightBg}{HTML}{F0F6FF}
+
 % --- PENGATURAN HYPERREF & WARNA TAUTAN AKADEMIK ---
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue!80!black,
-    citecolor=blue!80!black,
-    urlcolor=blue!80!black,
+    linkcolor=sakapintaPrimary,
+    citecolor=sakapintaPrimary,
+    urlcolor=sakapintaPrimary,
     pdfauthor={KKN: Kelompok Kecerdasan Neural},
     pdftitle={Proposal Sakapinta - COMPFEST 18 AI Innovation Challenge}
 }
@@ -71,40 +77,40 @@
 \begin{titlepage}
     \thispagestyle{fancy}
     \centering
-    \vspace*{0.6cm}
+    \vspace*{0.5cm}
     
     {\normalsize \textbf{AI INNOVATION CHALLENGE 2026 --- COMPFEST 18}\par}
     \vspace{0.15cm}
     {\small \textbf{Pilar: Smart Commerce \& Smart Logistics}\par}
     
-    \vspace{0.6cm}
+    \vspace{0.5cm}
     \includegraphics[width=3.2cm]{figures/Sakapinta.png}\par
-    \vspace{0.35cm}
+    \vspace{0.3cm}
     
-    {\Huge \textbf{SAKAPINTA}\par}
+    {\Huge \textbf{\color{sakapintaPrimary} SAKAPINTA}\par}
     \vspace{0.25cm}
     {\large \textbf{Sistem Preskriptif Pendukung Keputusan Stok Ritel UMKM Berbasis Multi-Quantile Gradient Boosting dan Stochastic Buffer}\par}
-    \vspace{0.25cm}
+    \vspace{0.2cm}
     {\normalsize \textit{``Tiang Penyangga Keputusan Stok UMKM Indonesia''}\par}
 
-    \vspace{0.5cm}
-    \rule{\linewidth}{1.2pt}\par
-    \vspace{0.35cm}
+    \vspace{0.4cm}
+    {\color{sakapintaPrimary}\rule{\linewidth}{1.5pt}}\par
+    \vspace{0.3cm}
 
-    \begin{minipage}{0.92\textwidth}
+    \begin{center}
         \footnotesize
-        \textbf{Nama Tim:} KKN (Kelompok Kecerdasan Neural)\\[0.2cm]
+        \textbf{\color{sakapintaDark} Nama Tim: KKN (Kelompok Kecerdasan Neural)}\\[0.2cm]
         \textbf{Anggota Tim:}\\[0.1cm]
-        1. Husni Abdillah (Ketua Tim)\\
-        2. Fatiyya Ilmi Zahra\\
-        3. Gilang Agung Prakoso\\
-        4. Naufal Ghifari Afdhala\\
-        5. Arief Abdul Rahman\\
-    \end{minipage}
+        1. Husni Abdillah (Ketua Tim)\\[0.06cm]
+        2. Fatiyya Ilmi Zahra\\[0.06cm]
+        3. Gilang Agung Prakoso\\[0.06cm]
+        4. Naufal Ghifari Afdhala\\[0.06cm]
+        5. Arief Abdul Rahman\\[0.1cm]
+    \end{center}
 
-    \vspace{0.5cm}
+    \vspace{0.3cm}
 
-    \begin{tcolorbox}[colback=blue!4!white,colframe=blue!70!black,title={\footnotesize \textbf{Tautan Akses Luaran \& Artefak Digital}},arc=1.5mm]
+    \begin{tcolorbox}[colback=sakapintaLightBg,colframe=sakapintaPrimary,title={\footnotesize \textbf{Tautan Akses Luaran \& Artefak Digital}},arc=1.5mm]
         \footnotesize
         \begin{itemize}[leftmargin=0.4cm,itemsep=1pt,topsep=0pt]
             \item \textbf{Repositori GitHub:} \href{https://github.com/HusniAbdillah/Sakapinta}{\texttt{https://github.com/HusniAbdillah/Sakapinta}}
