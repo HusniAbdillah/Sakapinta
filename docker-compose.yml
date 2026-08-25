@@ -10,7 +10,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-      - ./mock_data:/app/mock_data
+      - ./backend/mock_data:/app/mock_data
     environment:
       - PYTHONUNBUFFERED=1
       - PORT=8000

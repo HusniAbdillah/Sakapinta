@@ -160,15 +160,15 @@ export default function DashboardPage() {
         <section className="text-center space-y-3 max-w-3xl mx-auto pt-2 pb-2">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold">
             <Sparkles className="h-3.5 w-3.5 text-electric-cyan" />
-            <span>Smart Commerce & Logistics</span>
+            <span>AI Decision Support System for Smart Commerce</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-on-surface font-display">
-            Sakapinta
+            Optimasi Keputusan Stok & Restock UMKM Indonesia
           </h1>
 
           <p className="text-xs sm:text-sm text-on-surface-variant font-mono leading-relaxed">
-            Tiang Penyangga Keputusan Stok UMKM Indonesia. Mengonversi data transaksi menjadi{" "}
+            Bukan sekadar peramalan deret waktu biasa. Sakapinta mengonversi data transaksi menjadi{" "}
             <strong className="text-primary font-bold">tindakan preskriptif</strong>: rekomendasi kuantitas restock,
             stok pengaman stokastik, dan simulasi potensi kerugian finansial.
           </p>
