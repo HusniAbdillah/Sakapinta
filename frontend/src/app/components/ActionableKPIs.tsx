@@ -9,6 +9,8 @@ export interface DecisionSummary {
   critical_items_count: number;
   total_skus_evaluated: number;
   average_safety_stock_ratio: string;
+  service_level_target?: string;
+  stochastic_model?: string;
 }
 
 interface ActionableKPIsProps {
@@ -61,15 +63,15 @@ export default function ActionableKPIs({ summary }: ActionableKPIsProps) {
           </div>
           <span>Potensi Omset Hilang</span>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-rose-400 tracking-tight mb-1">
+        <div className="text-2xl sm:text-3xl font-extrabold text-rose-300 tracking-tight mb-1">
           {formatIDR(summary.potential_lost_sales_idr)}
         </div>
-        <p className="text-xs text-rose-300/80">
-          Risiko kerugian jika restock tidak dieksekusi
+        <p className="text-xs text-rose-400/90 flex items-center space-x-1">
+          <span>Risiko jika stok habis dan tidak restock</span>
         </p>
       </div>
 
-      {/* 3. Critical High-Risk SKUs */}
+      {/* 3. Critical SKU Count */}
       <div className="glass-panel rounded-2xl p-5 border border-amber-500/30 glass-card-hover relative overflow-hidden group bg-gradient-to-br from-surface-200 to-amber-950/20">
         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
           <TrendingUp className="h-16 w-16 text-amber-400" />
@@ -78,33 +80,33 @@ export default function ActionableKPIs({ summary }: ActionableKPIsProps) {
           <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30">
             <TrendingUp className="h-4 w-4" />
           </div>
-          <span>SKU Kategori Kritis</span>
+          <span>SKU Prioritas Kritis</span>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 tracking-tight mb-1 flex items-baseline space-x-2">
-          <span>{summary.critical_items_count} SKU</span>
-          <span className="text-xs font-normal text-slate-400">/ {summary.total_skus_evaluated} Produk</span>
+        <div className="text-2xl sm:text-3xl font-extrabold text-amber-300 tracking-tight mb-1">
+          {summary.critical_items_count}{" "}
+          <span className="text-sm font-medium text-amber-400/80">/ {summary.total_skus_evaluated} SKU</span>
         </div>
-        <p className="text-xs text-amber-300/80">
-          {criticalRatio}% produk berisiko habis sebelum siklus berakhir
+        <p className="text-xs text-amber-400/90 flex items-center space-x-1">
+          <span>{criticalRatio}% SKU mendesak harus dipesan</span>
         </p>
       </div>
 
-      {/* 4. Average Safety Stock & Confidence */}
-      <div className="glass-panel rounded-2xl p-5 border border-slate-700/60 glass-card-hover relative overflow-hidden group">
+      {/* 4. Stochastic Safety Stock Buffer */}
+      <div className="glass-panel rounded-2xl p-5 border border-emerald-500/30 glass-card-hover relative overflow-hidden group bg-gradient-to-br from-surface-200 to-emerald-950/20">
         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-          <ShieldCheck className="h-16 w-16 text-accent-cyan" />
+          <ShieldCheck className="h-16 w-16 text-emerald-400" />
         </div>
-        <div className="flex items-center space-x-2 text-slate-400 text-xs font-medium uppercase tracking-wider mb-2">
-          <div className="p-1.5 rounded-lg bg-cyan-500/10 text-accent-cyan border border-cyan-500/20">
+        <div className="flex items-center space-x-2 text-emerald-300 text-xs font-medium uppercase tracking-wider mb-2">
+          <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
             <ShieldCheck className="h-4 w-4" />
           </div>
-          <span>Buffer Safety Stock</span>
+          <span>Stochastic Safety Buffer</span>
         </div>
-        <div className="text-2xl sm:text-3xl font-extrabold text-accent-cyan tracking-tight mb-1">
+        <div className="text-2xl sm:text-3xl font-extrabold text-emerald-300 tracking-tight mb-1">
           {summary.average_safety_stock_ratio}
         </div>
-        <p className="text-xs text-slate-400">
-          Target Service Level 95% (Lead Time 3 Hari)
+        <p className="text-xs text-emerald-400/90 flex items-center space-x-1">
+          <span>Service Level Target: {summary.service_level_target || "95.0% (Z=1.65)"}</span>
         </p>
       </div>
     </section>

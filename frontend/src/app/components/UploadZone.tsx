@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { UploadCloud, FileSpreadsheet, Sparkles, AlertCircle, RefreshCw, CheckCircle2 } from "lucide-react";
+import { UploadCloud, FileSpreadsheet, Sparkles, AlertCircle, RefreshCw, CheckCircle2, Download } from "lucide-react";
 
 interface UploadZoneProps {
   onAnalyzeFile: (file: File | null) => Promise<void>;
@@ -48,7 +48,25 @@ export default function UploadZone({ onAnalyzeFile, loading, error }: UploadZone
 
   const handleUseSampleData = async () => {
     setSelectedFile(null);
-    await onAnalyzeFile(null); // Passing null triggers the backend sample dataset
+    await onAnalyzeFile(null);
+  };
+
+  const handleDownloadTemplate = () => {
+    const templateContent =
+      "Date,ProductID,ProductName,Qty,Price,Cost,CurrentStock\n" +
+      "2026-08-01,SKU-BERAS-05,Beras Ramos Premium 5kg,22,78000,68000,15\n" +
+      "2026-08-01,SKU-MINYAK-02,Minyak Goreng Sawit 2L,35,34000,29000,10\n" +
+      "2026-08-02,SKU-BERAS-05,Beras Ramos Premium 5kg,26,78000,68000,15\n" +
+      "2026-08-02,SKU-MINYAK-02,Minyak Goreng Sawit 2L,38,34000,29000,10\n";
+
+    const blob = new Blob([templateContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Template_Format_Penjualan_Sakapinta.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -115,9 +133,17 @@ export default function UploadZone({ onAnalyzeFile, loading, error }: UploadZone
               <Sparkles className="h-4 w-4 text-accent-amber" />
               <span>⚡ Gunakan Mock Retail UMKM Indonesia</span>
             </button>
+
+            <button
+              type="button"
+              onClick={handleDownloadTemplate}
+              className="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 bg-surface-300/40 hover:bg-surface-300 border border-slate-800 transition-colors cursor-pointer"
+            >
+              <Download className="h-3.5 w-3.5" />
+              <span>Template CSV</span>
+            </button>
           </div>
 
-          {/* Supported Format Hint */}
           <div className="pt-2">
             <p className="text-[11px] text-slate-500">
               Format Kolom: <code className="text-slate-400">Date</code>, <code className="text-slate-400">ProductID</code>, <code className="text-slate-400">ProductName</code>, <code className="text-slate-400">Qty</code>, <code className="text-slate-400">Price</code>, <code className="text-slate-400">Cost</code>, <code className="text-slate-400">CurrentStock</code>

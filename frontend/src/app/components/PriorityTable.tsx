@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { formatIDR } from "./ActionableKPIs";
-import { ArrowUpDown, AlertCircle, CheckCircle2, ChevronRight, Search, SlidersHorizontal } from "lucide-react";
+import { ArrowUpDown, AlertCircle, CheckCircle2, ChevronRight, Search, SlidersHorizontal, Info, ShieldCheck, Sparkles, Activity, Layers } from "lucide-react";
 
 export interface DecisionResultItem {
   product_id: string;
@@ -19,6 +19,8 @@ export interface DecisionResultItem {
   risk_score_numeric: number;
   priority_rank: number;
   lead_time_days: number;
+  lead_time_sigma_days?: number;
+  demand_profile?: string;
   days_of_stock_remaining: number;
   historical_points: Array<{ date: string; qty: number }>;
   daily_predictions: Array<{
@@ -80,6 +82,8 @@ export default function PriorityTable({
     }
   };
 
+  const selectedItem = results.find(r => r.product_id === selectedProductId);
+
   return (
     <div className="glass-panel rounded-2xl border border-slate-800 p-5 sm:p-6 space-y-4">
       {/* Header with Search and Filter */}
@@ -92,13 +96,12 @@ export default function PriorityTable({
             </span>
           </h3>
           <p className="text-xs text-slate-400">
-            Diurutkan berdasarkan skor risiko gabungan, volume permintaan, dan margin keuntungan.
+            Diurutkan secara cerdas berdasarkan skor risiko gabungan, volume peramalan, dan margin keuntungan.
           </p>
         </div>
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Search box */}
           <div className="relative min-w-[200px]">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
             <input
@@ -110,7 +113,6 @@ export default function PriorityTable({
             />
           </div>
 
-          {/* Risk category pills */}
           <div className="flex items-center space-x-1 bg-surface-200 p-1 rounded-xl border border-slate-700/60 text-xs">
             {["ALL", "HIGH", "MEDIUM", "LOW"].map((risk) => (
               <button
@@ -135,7 +137,7 @@ export default function PriorityTable({
           <thead className="bg-surface-300/80 text-slate-400 font-semibold border-b border-slate-800 uppercase tracking-wider text-[11px]">
             <tr>
               <th className="py-3 px-3 sm:px-4 text-center">Rank</th>
-              <th className="py-3 px-3 sm:px-4">Produk / SKU</th>
+              <th className="py-3 px-3 sm:px-4">Produk / Profil AI</th>
               <th className="py-3 px-3 sm:px-4 text-center">Tingkat Risiko</th>
               <th className="py-3 px-3 sm:px-4 text-right">Stok Saat Ini</th>
               <th className="py-3 px-3 sm:px-4 text-right">Prediksi 14D</th>
@@ -164,7 +166,6 @@ export default function PriorityTable({
                         : "hover:bg-surface-200/50"
                     }`}
                   >
-                    {/* Rank */}
                     <td className="py-3 px-3 sm:px-4 text-center font-bold">
                       <span
                         className={`inline-flex items-center justify-center h-6 w-6 rounded-full text-xs font-bold ${
@@ -179,18 +180,22 @@ export default function PriorityTable({
                       </span>
                     </td>
 
-                    {/* Product Name & ID */}
                     <td className="py-3 px-3 sm:px-4">
                       <div className="font-semibold text-white">{item.product_name}</div>
-                      <div className="text-[11px] text-slate-400 font-mono">{item.product_id}</div>
+                      <div className="flex items-center space-x-2 mt-0.5">
+                        <span className="text-[11px] text-slate-400 font-mono">{item.product_id}</span>
+                        {item.demand_profile && (
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-brand-500/10 text-brand-300 border border-brand-500/20">
+                            {item.demand_profile.includes("Croston") ? "Croston Hurdle" : item.demand_profile.includes("Bayesian") ? "Bayesian Prior" : "LightGBM SOTA"}
+                          </span>
+                        )}
+                      </div>
                     </td>
 
-                    {/* Risk Badge */}
                     <td className="py-3 px-3 sm:px-4 text-center whitespace-nowrap">
                       {getRiskBadge(item.risk_score)}
                     </td>
 
-                    {/* Current Stock */}
                     <td className="py-3 px-3 sm:px-4 text-right font-medium">
                       <span>{item.current_stock} unit</span>
                       <div className="text-[10px] text-slate-400">
@@ -198,12 +203,10 @@ export default function PriorityTable({
                       </div>
                     </td>
 
-                    {/* 14-day Forecast */}
                     <td className="py-3 px-3 sm:px-4 text-right font-semibold text-slate-300">
                       {item.forecast_14d_qty} unit
                     </td>
 
-                    {/* Recommended Reorder Qty */}
                     <td className="py-3 px-3 sm:px-4 text-right font-bold text-brand-400">
                       <span className="px-2 py-1 rounded-lg bg-brand-500/15 border border-brand-500/30">
                         +{item.recommended_reorder_qty} unit
@@ -213,12 +216,10 @@ export default function PriorityTable({
                       </div>
                     </td>
 
-                    {/* Estimated Cost */}
                     <td className="py-3 px-3 sm:px-4 text-right font-medium text-slate-300 whitespace-nowrap">
                       {formatIDR(item.estimated_cost_idr)}
                     </td>
 
-                    {/* Action Button */}
                     <td className="py-3 px-3 sm:px-4 text-center">
                       <button
                         type="button"
@@ -232,7 +233,7 @@ export default function PriorityTable({
                             : "bg-surface-50 hover:bg-surface-100 text-slate-300 border border-slate-700"
                         }`}
                       >
-                        <span>Grafik</span>
+                        <span>XAI Math</span>
                         <ChevronRight className="h-3.5 w-3.5" />
                       </button>
                     </td>
@@ -243,6 +244,57 @@ export default function PriorityTable({
           </tbody>
         </table>
       </div>
+
+      {/* Expandable Explainable AI (XAI) Breakdown Panel for Selected Product */}
+      {selectedItem && (
+        <div className="p-4 rounded-xl bg-surface-300/90 border border-brand-500/30 space-y-3 animate-in fade-in duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="h-4 w-4 text-brand-400" />
+              <h4 className="text-xs sm:text-sm font-bold text-white">
+                Rincian Transparansi AI & Formulasi Matematika (XAI) — {selectedItem.product_name}
+              </h4>
+            </div>
+            <div className="flex items-center space-x-2 text-[11px] text-slate-400 font-mono">
+              <span>Profil: {selectedItem.demand_profile || "Fast-Moving"}</span>
+              <span>•</span>
+              <span>Lead Time: {selectedItem.lead_time_days}D (σL={selectedItem.lead_time_sigma_days || 0.6}D)</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div className="p-3 rounded-lg bg-surface-200/60 border border-slate-800 space-y-1">
+              <div className="text-slate-400 font-medium">1. Rumus Kuantitas Restock</div>
+              <div className="text-white font-semibold">
+                Q = max(0, Forecast {selectedItem.forecast_14d_qty} + SS {selectedItem.safety_stock_qty} - Stok {selectedItem.current_stock})
+              </div>
+              <div className="text-brand-400 font-bold text-sm">
+                = {selectedItem.recommended_reorder_qty} Unit
+              </div>
+            </div>
+
+            <div className="p-3 rounded-lg bg-surface-200/60 border border-slate-800 space-y-1">
+              <div className="text-slate-400 font-medium">2. Stochastic Joint Safety Stock (95% SL)</div>
+              <div className="text-white font-semibold">
+                SS = ⌈ Z(1.65) × √(L·σD² + D̄²·σL²) ⌉
+              </div>
+              <div className="text-emerald-400 font-bold text-sm">
+                = +{selectedItem.safety_stock_qty} Unit (Buffer Ketidakpastian Ganda)
+              </div>
+            </div>
+
+            <div className="p-3 rounded-lg bg-surface-200/60 border border-slate-800 space-y-1">
+              <div className="text-slate-400 font-medium">3. Skor Risiko & Ketahanan</div>
+              <div className="text-white font-semibold">
+                Indeks Risiko: {selectedItem.risk_score_numeric} / 100 ({selectedItem.risk_score})
+              </div>
+              <div className="text-amber-400 font-bold text-sm">
+                Sisa Ketahanan Stok: ~{selectedItem.days_of_stock_remaining} Hari
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
