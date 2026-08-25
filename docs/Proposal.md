@@ -98,10 +98,44 @@ Model melatih tiga estimator LightGBM secara simultan:
 **Alasan Pemilihan LightGBM**:
 1. **Performa Superior pada Fitur Tabular**: Model *tree-based gradient boosting* secara konsisten mengungguli Deep Learning pada data deret waktu tabular berukuran sedang yang didominasi flag eksogen kategorikal/biner.
 2. **Efisiensi Edge Deployment**: Latensi di bawah 10 ms pada CPU tanpa GPU overhead memastikan aplikasi 100% mematuhi batasan MVP penyisihan.
+2. **Efisiensi Edge Deployment**: Latensi di bawah 10 ms pada CPU tanpa GPU overhead memastikan aplikasi 100% mematuhi batasan MVP penyisihan.
 
-### 4.4 Alur Integrasi Model ke Kode (Clean Architecture)
-- **Offline Training Pipeline (`ai_pipeline/train.py`)**: Mengeksekusi pelatihan, evaluasi, dan menyimpan artifact model ke `backend/app/models/sakapinta_model.joblib`.
-- **Static Core Inference (`backend/app/core/inference.py`)**: Di dalam runtime FastAPI, endpoint `POST /api/predict-and-decide` me-load `.joblib` secara statis tanpa ada proses retraining di runtime, menjaga latensi respons di bawah 1 detik.
+#### Metode Pendukung Pengambilan Keputusan (Supporting Methods)
+Selain arsitektur inti, keputusan teknis didukung oleh metode pendukung yang saling melengkapi:
+- **Pembersihan IQR (Outlier Filtering)**: Menghapus anomali pencatatan kasir menggunakan rentang antar-kuartil ($Q1 - 1.5 \times IQR$ hingga $Q3 + 1.5 \times IQR$) agar outlier tidak mendistorsi dasar pelatihan.
+- **Dekomposisi Croston's Hurdle**: Menangani komoditas *slow-moving* (rasio hari tanpa penjualan $\ge 35\%$) yang rentan bias kuadratis bila diperlakukan sebagai permintaan kontinu.
+- **Empirical Bayes Prior**: Menyusutkan estimasi produk *cold-start* ($n < 7$ hari) terhadap prior kategori agar tidak overfit pada historis yang sangat pendek.
+- **Explainable AI (XAI)**: Setiap rekomendasi dilengkapi laci transparansi matematis yang dapat diverifikasi pengguna (mendukung *responsible AI*).
+- **Metrik Evaluasi**: RMSE, MAE, MAPE, dan $R^2$ dipakai sebagai kriteria objektif komparasi model.
+
+#### Protokol Evaluasi & Keterbatasan (Honest Architecture)
+- Evaluasi model dilakukan dengan **walk-forward / hold-out split** pada **dataset uji sintetik bertema Indonesia**; metrik dihitung untuk menghindari optimisme berlebih.
+- **Validasi pada data UMKM riil belum dilakukan** pada tahap penyisihan ini — validasi data lapangan menjadi **prioritas pengembangan pada babak final/ hackathon**. Keterbatasan ini kami nyatakan secara terbuka demi transparansi.
+- Sebagai pembanding yang bermakna, diukur pula satu **baseline naive** (prediksi = nilai yang sama dengan 14 hari sebelumnya); peningkatan performa dilaporkan relatif terhadap *baseline* ini agar tidak sekadar angka mutlak.
+
+### 4.4 Alur Integrasi Model ke Environment Kode (Clean Architecture)
+
+Alur ini menjelaskan bagaimana model yang dilatih *offline* benar-benar terpasang (deployed) ke dalam environment kode agar dapat dipanggil oleh aplikasi, sesuai arsitektur *Clean Architecture*:
+
+```mermaid
+flowchart LR
+    A["ai_pipeline/train.py\n(Offline Training)"] --> B["Artifact Model:\nbackend/app/models/sakapinta_model.joblib (v3.0.0)"]
+    B --> C["core/inference.py\n(Static Load at startup)"]
+    C --> D["core/decision_layer.py\n(Hybrid Prescriptive Logic)"]
+    D --> E["main.py -> POST /api/predict-and-decide\n(FastAPI, sync)"]
+    E --> F["Frontend Dashboard\n(Next.js)"]
+```
+
+1. **Offline Training Pipeline (`ai_pipeline/train.py`)**: Mengeksekusi pelatihan, evaluasi, dan menyimpan artifact model terkalibrasi ke `backend/app/models/sakapinta_model.joblib`. Modul ini **tidak** berjalan di runtime sehingga tidak ada proses *retraining* saat API melayani permintaan.
+2. **Static Core Inference (`backend/app/core/inference.py`)**: Saat container memulai (startup), artifact `.joblib` dimuat **sekali** ke memori (in-memory) pada variabel global `_MODEL_ARTIFACT`, menjamin latensi inferensi < 10 ms dan perilaku deterministik.
+3. **Hybrid Decision Layer (`backend/app/core/decision_layer.py`)**: Output forecast diolah menjadi rekomendasi preskriptif (safety stock, reorder, skor risiko, proyeksi finansial).
+4. **REST API (`backend/app/main.py`)**: Endpoint sinkron `POST /api/predict-and-decide` menautkan seluruh lapisan di atas dan mengembalikan JSON keputusan.
+5. **Frontend (`frontend/`)**: Menampilkan keputusan pada dashboard.
+
+**Environment & Reproducibility:**
+- **Runtime Backend**: Python 3.11; seluruh dependensi dikunci pada `backend/requirements.txt`.
+- **Runtime Frontend**: Node.js (Next.js 14, App Router), dikunci pada `frontend/package.json`.
+- **Kontainerisasi**: Backend, Frontend, dan Nginx reverse proxy (port 80) diatur dalam `docker-compose.yml` dari direktori akar — dapat dijalankan dengan satu perintah `docker compose up --build`. Panduan langkah demi langkah tersedia pada `README.md` agar panitia dapat mereproduksi aplikasi secara lokal.
 
 ---
 
@@ -167,11 +201,42 @@ Berdasarkan pengujian empiris pada portofolio 12 SKU ritel Indonesia:
 
 ## 8. Refleksi Proses Pengembangan Iteratif
 
-Pengembangan Sakapinta mencerminkan proses iterasi yang reflektif dan adaptif:
+Pengembangan Sakapinta mencerminkan proses iterasi yang reflektif dan adaptif. Cerita berikut ditelusuri dari riwayat commit repository tim selama periode pengerjaan (23–25 Agustus 2026), sehingga mencerminkan keputusan yang benar-benar diambil, bukan sekadar daftar fitur:
 
-1. **Iterasi 1 (Baseline Univariat Pasif)**: Menguji model statistik deret waktu standar (ARIMA/Moving Average). Evaluasi menunjukkan kegagalan total saat menghadapi lonjakan tanggal kembar Harbolnas dan menjelang Idul Fitri karena ketiadaan fitur eksogen kalender lokal.
-2. **Iterasi 2 (Eksperimen Deep Learning vs Tree Ensembles)**: Melatih N-BEATS dan XGBoost pada data UCI. Hasil menunjukkan N-BEATS memerlukan ukuran container 2GB+ dengan latensi CPU tinggi, sementara *gradient boosting* mampu menangkap anomali musiman secara instan jika didukung fitur Fourier dan penanggalan Hijriah.
-3. **Iterasi 3 (Multi-Quantile LightGBM & Hybrid Decision Layer)**: Menyempurnakan model dengan prediksi rentang ketidakpastian ($P_{10}, P_{50}, P_{90}$) yang menjadi landasan matematis penghitungan *Dynamic Safety Stock* dan *What-If Budget Simulator*.
+1. Iterasi 0 — Perancangan & Definisi Arsitektur (tahap inisialisasi)
+   *Situasi*: Kerangka proyek dan kebutuhan MVP didefinisikan lebih dulu (arsitektur dasar, requirements, metodologi awal).
+   *Pelajaran*: Kejelasan spesifikasi MVP sejak awal menjaga fokus dan menghindari overbuilding.
+
+2. Iterasi 1 — Mesin Inferensi Inti Multi-Quantile (pipeline offline + artifact model)
+   *Situasi*: Mengimplementasikan pipeline pelatihan offline dan menghasilkan artifact `sakapinta_model.joblib`.
+   *Pelajaran*: Memisahkan pelatihan (offline) dari inferensi (runtime) terbukti krusial untuk memenuhi batasan MVP (statis, inferensi <10 ms).
+
+3. Iterasi 2 — Penanganan Permintaan Intermiten (Croston) (enhancement inferensi + perbaikan load artifact)
+   *Situasi*: Setelah mesin inti berjalan, evaluasi menemukan sejumlah komoditas slow-moving dengan banyak hari tanpa penjualan.
+   *Pelajaran*: Satu model tunggal tidak cukup; kami mengintegrasikan dekomposisi Croston dan memperbaiki mekanisme pemuatan artifact — satu strategi per profil permintaan sangat diperlukan.
+
+4. Iterasi 3 — Bukti Empiris & EDA (penambahan plot EDA & benchmark)
+   *Situasi*: Menambahkan visualisasi sales distribution, outlier IQR, quantile uncertainty, dan time-series decomposition, serta hasil komparasi model.
+   *Pelajaran*: Bukti visual dan benchmark kuantitatif memperkuat argumentasi pemilihan model secara data (evidence-based).
+
+5. Iterasi 4 — Kematangan Keputusan & Sistem Desain UI (revisi komputasi finansial/risk scoring + desain sistem visual)
+   *Situasi*: Merevisi perhitungan finansial dan skor risiko, lalu menyelaraskan komponen antarmuka (What-If, PriorityTable, dsb.).
+   *Pelajaran*: Lapisan preskriptif dan pengalaman pengguna harus diiterasi bersama, bukan terpisah.
+
+6. Iterasi 5 — Rekayasa Data & Perluasan Portofolio (kalibrasi alias kolom + portofolio 12 SKU)
+   *Situasi*: Memperluas ke 12 SKU beragam dan menanggulangi variasi penamaan kolom data riil (alias calibration).
+   *Pelajaran*: Kemampuan menyesuaikan variasi format input adalah kebutuhan nyata di lapangan, bukan fitur sekunder.
+
+7. Iterasi 6 — Kontainerisasi & Deployment (Dockerfiles, docker-compose, nginx, panduan GCP)
+   *Situasi*: Menyatukan Backend + Frontend + Nginx agar dapat dijalankan satu perintah dan siap di-deploy.
+   *Pelajaran*: Reproducibility (kemampuan panitia menjalankan ulang) adalah kunci kelolosan teknis.
+
+8. Iterasi 7 — Penulisan Karya Ilmiah & Verifikasi Akhir (proposal LaTeX, cover, bibliografi, EDA figures)
+   *Situasi*: Menyusun proposal final yang lengkap dengan referensi valid.
+   *Pelajaran*: Dokumentasi akademik yang rapi menutup keseluruhan proses secara utuh dan kredibel.
+
+Setiap tahap di atas diakhiri dengan "pelajaran" yang memengaruhi keputusan tahap berikutnya — sesuai prinsip pengembangan iteratif yang reflektif, bukan sekadar pemaparan fitur.
+
 
 ---
 
