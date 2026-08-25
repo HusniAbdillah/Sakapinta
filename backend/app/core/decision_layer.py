@@ -2,14 +2,20 @@ import math
 import numpy as np
 from typing import List, Dict, Any
 
-DEFAULT_SERVICE_LEVEL_Z = 1.65  # 95% service level standard normal quantile
-DEFAULT_LEAD_TIME_DAYS = 3      # Typical Indonesian domestic distributor lead time
+DEFAULT_SERVICE_LEVEL_Z = 1.65   # 95% service level standard normal quantile
+DEFAULT_LEAD_TIME_DAYS = 3.0     # Mean distributor lead time in Indonesia
+DEFAULT_LEAD_TIME_SIGMA = 0.6    # Distributor transit jitter/variance in days (Stochastic lead-time)
 
-def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[str, Any]:
+def apply_hybrid_decision_logic(
+    forecast_items: List[Dict[str, Any]],
+    service_level_z: float = DEFAULT_SERVICE_LEVEL_Z,
+    supplier_lead_time_days: float = DEFAULT_LEAD_TIME_DAYS,
+    lead_time_sigma: float = DEFAULT_LEAD_TIME_SIGMA
+) -> Dict[str, Any]:
     """
-    Executes the Hybrid Decision Support Layer:
-    1. Computes Dynamic Safety Stock based on forecast variance and lead time.
-    2. Calculates Recommended Reorder Quantity considering current inventory.
+    Executes the Industrial Hybrid Decision Support Layer:
+    1. Computes Full Stochastic Joint Safety Stock: SS = Z * sqrt(L * sigma_D^2 + D_bar^2 * sigma_L^2)
+    2. Calculates Recommended Reorder Quantity: Q_reorder = max(0, Forecast_14d + SS - CurrentStock)
     3. Evaluates Stockout Risk Scores (High / Medium / Low).
     4. Computes What-If Financial Projections (Capital Required vs. Potential Lost Sales).
     5. Determines Priority Ranking across all SKUs.
@@ -18,14 +24,22 @@ def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[st
 
     for item in forecast_items:
         forecast_14d = item['forecast_14d_qty']
-        std_dev = item['forecast_std_dev']
-        current_stock = item['current_stock']
-        unit_price = item['unit_price_idr']
-        unit_cost = item['unit_cost_idr']
-        lead_time = DEFAULT_LEAD_TIME_DAYS
+        std_dev_d = float(item['forecast_std_dev'])
+        current_stock = float(item['current_stock'])
+        unit_price = float(item['unit_price_idr'])
+        unit_cost = float(item['unit_cost_idr'])
+        
+        l_mean = supplier_lead_time_days
+        l_sigma = lead_time_sigma
+        daily_avg_demand = max(0.5, forecast_14d / 14.0)
 
-        # 1. Dynamic Safety Stock Formulation: SS = Z * sigma * sqrt(L)
-        raw_safety_stock = DEFAULT_SERVICE_LEVEL_Z * std_dev * math.sqrt(lead_time)
+        # 1. Full Stochastic Joint Safety Stock Formulation:
+        # SS = Z * sqrt( L * sigma_D^2 + D_bar^2 * sigma_L^2 )
+        demand_variance_component = l_mean * (std_dev_d ** 2)
+        lead_time_variance_component = (daily_avg_demand ** 2) * (l_sigma ** 2)
+        total_stochastic_variance = demand_variance_component + lead_time_variance_component
+        
+        raw_safety_stock = service_level_z * math.sqrt(max(1.0, total_stochastic_variance))
         safety_stock_qty = max(2, math.ceil(raw_safety_stock))
 
         # 2. Recommended Reorder Quantity: Q_reorder = max(0, Forecast_14d + SS - CurrentStock)
@@ -36,11 +50,9 @@ def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[st
         potential_lost_sales_idr = round(forecast_14d * unit_price)
 
         # 4. Stockout Risk Scoring Index (0 - 100)
-        # Factor A: Stock Coverage Days (how many days current stock lasts)
-        daily_avg_demand = max(0.5, forecast_14d / 14.0)
         days_of_stock = current_stock / daily_avg_demand
 
-        # Factor B: Stock Depletion Urgency (0-40 pts)
+        # Factor A: Stock Depletion Urgency (0-40 pts)
         if days_of_stock <= 3:
             stock_urgency_score = 40.0
         elif days_of_stock <= 7:
@@ -50,11 +62,11 @@ def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[st
         else:
             stock_urgency_score = 0.0
 
-        # Factor C: Forecast Volatility Index (0-30 pts)
-        cv = (std_dev / daily_avg_demand) if daily_avg_demand > 0 else 0.5
+        # Factor B: Forecast Volatility Index (0-30 pts)
+        cv = (std_dev_d / daily_avg_demand) if daily_avg_demand > 0 else 0.5
         volatility_score = min(30.0, cv * 25.0)
 
-        # Factor D: Holiday Surge Multiplier presence (0-30 pts)
+        # Factor C: Holiday Surge Multiplier presence (0-30 pts)
         has_holiday_surge = any("Regular" not in dp.get("event_label", "") for dp in item.get("daily_predictions", []))
         holiday_score = 30.0 if has_holiday_surge else 10.0
 
@@ -73,6 +85,9 @@ def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[st
         unit_margin = max(1000.0, unit_price - unit_cost)
         priority_weight = (risk_score_numeric / 100.0) * forecast_14d * math.log10(max(10.0, unit_margin))
 
+        # Demand Profile Classification
+        demand_profile = item.get("demand_profile", "Fast-Moving Smooth")
+
         enriched_results.append({
             "product_id": item['product_id'],
             "product_name": item['product_name'],
@@ -87,7 +102,9 @@ def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[st
             "risk_score": risk_score_cat,
             "risk_score_numeric": risk_score_numeric,
             "priority_weight": priority_weight,
-            "lead_time_days": lead_time,
+            "lead_time_days": round(l_mean, 1),
+            "lead_time_sigma_days": round(l_sigma, 2),
+            "demand_profile": demand_profile,
             "days_of_stock_remaining": round(days_of_stock, 1),
             "historical_points": item.get('historical_points', []),
             "daily_predictions": item.get('daily_predictions', [])
@@ -97,7 +114,6 @@ def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[st
     enriched_results.sort(key=lambda x: x['priority_weight'], reverse=True)
     for rank_idx, res in enumerate(enriched_results, start=1):
         res['priority_rank'] = rank_idx
-        # Remove internal sorting weight to keep clean API contract
         res.pop('priority_weight', None)
 
     # 6. Aggregate Executive KPIs
@@ -118,7 +134,9 @@ def apply_hybrid_decision_logic(forecast_items: List[Dict[str, Any]]) -> Dict[st
             "potential_lost_sales_idr": total_potential_lost_sales,
             "critical_items_count": critical_items_count,
             "total_skus_evaluated": total_skus,
-            "average_safety_stock_ratio": f"{safety_ratio_pct}%"
+            "average_safety_stock_ratio": f"{safety_ratio_pct}%",
+            "service_level_target": "95.0% (Z=1.65)",
+            "stochastic_model": "Joint Demand-LeadTime Variance Engine"
         },
         "results": enriched_results
     }
